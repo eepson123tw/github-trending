@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function RepoCard({ repo, category, appearances, index }: Props) {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLAnchorElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const card = cardRef.current;
@@ -40,11 +40,14 @@ export default function RepoCard({ repo, category, appearances, index }: Props) 
       viewport={{ once: true, margin: "-50px" }}
       transition={{ delay: index * 0.05, duration: 0.5, ease: "easeOut" }}
     >
-      <div
+      <a
+        href={`https://github.com/${repo.author}/${repo.title}`}
+        target="_blank"
+        rel="noopener noreferrer"
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="glass-card glow-border p-5 cursor-pointer transition-[transform] duration-200 ease-out group"
+        className="glass-card glow-border p-5 cursor-pointer transition-[transform] duration-200 ease-out group block"
         style={{ willChange: "transform" }}
       >
         {/* Header */}
@@ -97,19 +100,17 @@ export default function RepoCard({ repo, category, appearances, index }: Props) 
           >
             {category.name}
           </span>
-          {repo.url && (
-            <a
-              href={repo.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="text-xs text-slate-500 hover:text-indigo-400 transition-colors"
-            >
-              GitHub &rarr;
-            </a>
-          )}
+          <a
+            href={`https://github.com/${repo.author}/${repo.title}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="relative z-20 text-xs text-slate-500 hover:text-indigo-400 transition-colors px-2 py-1 -mr-2 -mb-1"
+          >
+            GitHub &rarr;
+          </a>
         </div>
-      </div>
+      </a>
     </motion.div>
   );
 }
