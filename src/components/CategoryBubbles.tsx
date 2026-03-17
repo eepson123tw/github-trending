@@ -41,6 +41,7 @@ export default function CategoryBubbles({ data }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [tooltip, setTooltip] = useState<TooltipInfo | null>(null);
+  const tooltipRef = useRef<TooltipInfo | null>(null);
   const stateRef = useRef<{
     nodes: GNode[];
     links: GLink[];
@@ -407,20 +408,22 @@ export default function CategoryBubbles({ data }: Props) {
         state.hovered = node;
         updateConnected(node);
         canvas.style.cursor = node ? "pointer" : "grab";
+      }
 
-        if (node) {
-          setTooltip({ x: mx, y: my, node });
-        } else {
-          setTooltip(null);
-        }
-      } else if (node && tooltip) {
-        setTooltip({ x: mx, y: my, node });
+      if (node) {
+        const info = { x: mx, y: my, node };
+        tooltipRef.current = info;
+        setTooltip(info);
+      } else if (tooltipRef.current) {
+        tooltipRef.current = null;
+        setTooltip(null);
       }
     };
 
     const handleLeave = () => {
       state.hovered = null;
       state.connectedIds = new Set();
+      tooltipRef.current = null;
       setTooltip(null);
       canvas.style.cursor = "grab";
     };
@@ -483,7 +486,8 @@ export default function CategoryBubbles({ data }: Props) {
       window.removeEventListener("mousemove", handleDrag);
       window.removeEventListener("mouseup", handleDragEnd);
     };
-  }, [data, tooltip]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   useEffect(() => {
     const cleanup = buildGraph();

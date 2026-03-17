@@ -17,6 +17,7 @@ export default function MusicPlayer() {
   const intervalRef = useRef<ReturnType<typeof setInterval>>(null);
 
   const hasAutoPlayed = useRef(false);
+  const [iframeSrc, setIframeSrc] = useState<string>("about:blank");
 
   // Auto-play on first scroll
   useEffect(() => {
@@ -25,8 +26,8 @@ export default function MusicPlayer() {
       if (window.scrollY > 50) {
         hasAutoPlayed.current = true;
         setIsPlaying(true);
+        setIframeSrc(`https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&loop=1&playlist=${YOUTUBE_ID}`);
         setExpanded(true);
-        // Auto-collapse panel after 3 seconds
         setTimeout(() => setExpanded(false), 3000);
         window.removeEventListener("scroll", handleScroll);
       }
@@ -50,8 +51,15 @@ export default function MusicPlayer() {
   }, [isPlaying]);
 
   const togglePlay = () => {
-    setIsPlaying(!isPlaying);
-    if (!isPlaying) setExpanded(true);
+    const next = !isPlaying;
+    setIsPlaying(next);
+    if (next) {
+      setExpanded(true);
+      // Only set src if it hasn't been set yet
+      if (iframeSrc === "about:blank") {
+        setIframeSrc(`https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&loop=1&playlist=${YOUTUBE_ID}`);
+      }
+    }
   };
 
   return (
@@ -183,16 +191,16 @@ export default function MusicPlayer() {
         )}
       </AnimatePresence>
 
-      {/* Hidden YouTube iframe — lives outside expanded panel so it persists */}
-      {isPlaying && (
-        <iframe
-          ref={iframeRef}
-          src={`https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&loop=1&playlist=${YOUTUBE_ID}`}
-          allow="autoplay"
-          className="w-0 h-0 absolute"
-          style={{ visibility: "hidden" }}
-        />
-      )}
+      {/* Hidden YouTube iframe — src set once and never changes, so audio persists */}
+      <iframe
+        key="yt-player"
+        ref={iframeRef}
+        src={iframeSrc}
+        allow="autoplay"
+        className="absolute"
+        style={{ width: 0, height: 0, border: "none", visibility: "hidden", position: "fixed", bottom: 0, left: 0 }}
+        tabIndex={-1}
+      />
 
       {/* Floating play button (always visible) */}
       <motion.button
