@@ -10,7 +10,7 @@ export default function HeroSection() {
   const STATS = [
     { label: t("statDays"), value: 354, suffix: " days" },
     { label: t("statRepos"), value: 4995, suffix: "" },
-    { label: t("statCategories"), value: 12, suffix: "" },
+    { label: t("statCategories"), value: 15, suffix: "" },
   ];
 
   return (
