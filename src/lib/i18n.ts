@@ -22,7 +22,11 @@ export const translations = {
 
     // Trend Chart
     trendTitle: "趨勢演變",
-    trendDesc: "每週各分類上榜數量的堆疊面積圖",
+    trendDesc: "河流圖呈現各分類此消彼長的趨勢 — 點擊分類可聚焦查看",
+    trendHintStream: "懸停查看數值 · 點擊分類名稱聚焦單一趨勢",
+    trendHintIsolated: "查看單一分類的趨勢走勢 · 點擊「返回總覽」回到河流圖",
+    trendBackToOverview: "返回總覽",
+    trendBandwidthHint: "色帶寬度 ＝ 該分類每週上榜數量",
 
     // Timeline
     timelineTitle: "時間河流",
@@ -93,7 +97,11 @@ export const translations = {
     navLeaderboard: "Leaderboard",
 
     trendTitle: "Trend Evolution",
-    trendDesc: "Weekly stacked area chart of category appearances",
+    trendDesc: "Stream graph showing the ebb and flow of each category — click to focus",
+    trendHintStream: "Hover for values · click a category to see its solo trend",
+    trendHintIsolated: "Viewing solo trend · click 'Back to Overview' to return",
+    trendBackToOverview: "Back to Overview",
+    trendBandwidthHint: "Band width = weekly trending count per category",
 
     timelineTitle: "Time River",
     timelineDesc: "Scroll through a full year of open-source trends — monthly highlights",
