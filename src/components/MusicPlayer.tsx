@@ -179,19 +179,20 @@ export default function MusicPlayer() {
               </button>
             </div>
 
-            {/* Hidden YouTube iframe for actual audio */}
-            {isPlaying && (
-              <iframe
-                ref={iframeRef}
-                src={`https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&loop=1&playlist=${YOUTUBE_ID}`}
-                allow="autoplay"
-                className="w-0 h-0 absolute"
-                style={{ visibility: "hidden" }}
-              />
-            )}
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Hidden YouTube iframe — lives outside expanded panel so it persists */}
+      {isPlaying && (
+        <iframe
+          ref={iframeRef}
+          src={`https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&loop=1&playlist=${YOUTUBE_ID}`}
+          allow="autoplay"
+          className="w-0 h-0 absolute"
+          style={{ visibility: "hidden" }}
+        />
+      )}
 
       {/* Floating play button (always visible) */}
       <motion.button
