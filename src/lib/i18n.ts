@@ -35,7 +35,8 @@ export const translations = {
 
     // Category Bubbles
     catTitle: "分類生態圈",
-    catDesc: "氣泡大小 = 總上榜次數 — 拖曳氣泡互動探索",
+    catDesc: "1,442 個 Repo 的知識圖譜 — 每個點都是一個開源專案",
+    catHint: "滾輪縮放 · 拖曳移動 · 懸停查看 · 點擊 Repo 開啟 GitHub",
 
     // Insights
     insightTitle: "趨勢洞察",
@@ -103,7 +104,8 @@ export const translations = {
     spring2026: "2026 Spring",
 
     catTitle: "Category Ecosystem",
-    catDesc: "Bubble size = total appearances — drag to explore",
+    catDesc: "Knowledge graph of 1,442 repos — every dot is an open-source project",
+    catHint: "Scroll to zoom · drag to move · hover to explore · click repo to open GitHub",
 
     insightTitle: "Trend Insights",
     insightDesc: "Key findings distilled from 354 days of data",
