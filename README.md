@@ -15,6 +15,10 @@
 </p>
 
 <p align="center">
+  <a href="https://github-trending.zeabur.app">https://github-trending.zeabur.app</a>
+</p>
+
+<p align="center">
   <code>2025-03-27 ~ 2026-03-15 &middot; 354 days &middot; 4,995 repos &middot; 12 categories</code>
 </p>
 
