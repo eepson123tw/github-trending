@@ -14,7 +14,7 @@ export default function LanguageSwitcher() {
       onClick={toggleLocale}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="fixed right-4 bottom-4 z-50 glass-card px-3 py-2 flex items-center gap-2 text-xs font-medium transition-colors hover:text-white text-slate-400"
+      className="fixed right-3 sm:right-4 bottom-3 sm:bottom-4 z-50 glass-card px-2.5 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-medium transition-colors hover:text-white text-slate-400"
       style={{
         boxShadow: "0 4px 20px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05)",
       }}

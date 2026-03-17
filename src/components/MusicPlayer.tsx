@@ -59,7 +59,7 @@ export default function MusicPlayer() {
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ delay: 2, duration: 0.6, ease: "easeOut" }}
-      className="fixed left-4 bottom-4 z-50 flex flex-col items-start gap-2"
+      className="fixed left-3 sm:left-4 bottom-3 sm:bottom-4 z-50 flex flex-col items-start gap-2"
     >
       {/* Expanded panel */}
       <AnimatePresence>
@@ -69,7 +69,7 @@ export default function MusicPlayer() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            className="glass-card p-3 w-64 mb-2"
+            className="glass-card p-3 w-56 sm:w-64 mb-2"
             style={{
               boxShadow:
                 "0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)",
@@ -205,7 +205,7 @@ export default function MusicPlayer() {
         }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        className="w-12 h-12 rounded-full flex items-center justify-center relative"
+        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center relative"
         style={{
           background: isPlaying
             ? "linear-gradient(135deg, #6366f1, #a855f7)"

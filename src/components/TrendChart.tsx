@@ -58,8 +58,8 @@ export default function TrendChart({ data }: Props) {
 
     const container = containerRef.current;
     const width = container.clientWidth;
-    const height = 400;
-    const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+    const height = width < 640 ? 260 : 400;
+    const margin = { top: 20, right: width < 640 ? 15 : 30, bottom: 40, left: width < 640 ? 30 : 40 };
 
     const svg = d3
       .select(svgRef.current)
@@ -150,7 +150,7 @@ export default function TrendChart({ data }: Props) {
   }, [data, hoveredCat]);
 
   return (
-    <section className="relative py-24 px-6">
+    <section className="relative py-16 sm:py-24 px-4 sm:px-6">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -158,15 +158,15 @@ export default function TrendChart({ data }: Props) {
         transition={{ duration: 0.8 }}
         className="max-w-6xl mx-auto"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
           <span className="bg-linear-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
             {t("trendTitle")}
           </span>
         </h2>
-        <p className="text-slate-500 mb-8">{t("trendDesc")}</p>
+        <p className="text-sm sm:text-base text-slate-500 mb-6 sm:mb-8">{t("trendDesc")}</p>
 
         {/* Legend */}
-        <div className="flex flex-wrap gap-3 mb-6">
+        <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
           {CATEGORIES.filter((c) => c.name !== "Other").map((cat) => (
             <button
               key={cat.name}

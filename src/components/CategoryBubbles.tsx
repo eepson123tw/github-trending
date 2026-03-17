@@ -26,6 +26,10 @@ export default function CategoryBubbles({ data }: Props) {
       catCounts[cat.name] = (catCounts[cat.name] || 0) + 1;
     });
 
+    const container = containerRef.current;
+    const width = container.clientWidth;
+    const height = width < 640 ? 320 : 500;
+
     const nodes: {
       id: string;
       color: string;
@@ -41,14 +45,10 @@ export default function CategoryBubbles({ data }: Props) {
       id: c.name,
       color: c.color,
       count: catCounts[c.name] || 0,
-      r: Math.sqrt(catCounts[c.name] || 1) * 4 + 20,
+      r: Math.sqrt(catCounts[c.name] || 1) * (width < 640 ? 2.5 : 4) + (width < 640 ? 14 : 20),
       x: 0,
       y: 0,
     }));
-
-    const container = containerRef.current;
-    const width = container.clientWidth;
-    const height = 500;
 
     const svg = d3
       .select(svgRef.current)
@@ -176,7 +176,7 @@ export default function CategoryBubbles({ data }: Props) {
   }, [data]);
 
   return (
-    <section className="relative py-24 px-6">
+    <section className="relative py-16 sm:py-24 px-4 sm:px-6">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -184,12 +184,12 @@ export default function CategoryBubbles({ data }: Props) {
         transition={{ duration: 0.8 }}
         className="max-w-6xl mx-auto"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
           <span className="bg-linear-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
             {t("catTitle")}
           </span>
         </h2>
-        <p className="text-slate-500 mb-8">
+        <p className="text-sm sm:text-base text-slate-500 mb-6 sm:mb-8">
           {t("catDesc")}
         </p>
 

@@ -36,7 +36,7 @@ export default function SearchExplorer({ data }: Props) {
   }, [allRepos, activeCategory, search]);
 
   return (
-    <section className="relative py-24 px-6">
+    <section className="relative py-16 sm:py-24 px-4 sm:px-6">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -44,12 +44,12 @@ export default function SearchExplorer({ data }: Props) {
         transition={{ duration: 0.8 }}
         className="max-w-6xl mx-auto"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
           <span className="bg-linear-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
             {t("searchTitle")}
           </span>
         </h2>
-        <p className="text-slate-500 mb-8">{t("searchDesc")}</p>
+        <p className="text-sm sm:text-base text-slate-500 mb-6 sm:mb-8">{t("searchDesc")}</p>
 
         {/* Search input */}
         <div className="relative mb-6">
@@ -159,7 +159,7 @@ export default function SearchExplorer({ data }: Props) {
         </p>
 
         {/* Repo grid with animations */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <AnimatePresence mode="popLayout">
             {filtered.map((repo, i) => (
               <motion.div

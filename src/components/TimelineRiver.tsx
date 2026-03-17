@@ -16,11 +16,11 @@ interface Props {
 
 const SEASON_KEYS = ["spring2025", "summer2025", "autumn2025", "winter2025", "spring2026"] as const;
 const SEASON_COLORS = [
-  { bg: "rgba(16,185,129,0.06)", border: "rgba(16,185,129,0.2)", text: "#10b981" },
-  { bg: "rgba(245,158,11,0.06)", border: "rgba(245,158,11,0.2)", text: "#f59e0b" },
-  { bg: "rgba(249,115,22,0.06)", border: "rgba(249,115,22,0.2)", text: "#f97316" },
-  { bg: "rgba(99,102,241,0.06)", border: "rgba(99,102,241,0.2)", text: "#6366f1" },
-  { bg: "rgba(16,185,129,0.06)", border: "rgba(16,185,129,0.2)", text: "#10b981" },
+  { bg: "rgba(16,185,129,0.06)", border: "rgba(16,185,129,0.25)", text: "#10b981" },
+  { bg: "rgba(245,158,11,0.06)", border: "rgba(245,158,11,0.25)", text: "#f59e0b" },
+  { bg: "rgba(249,115,22,0.06)", border: "rgba(249,115,22,0.25)", text: "#f97316" },
+  { bg: "rgba(99,102,241,0.06)", border: "rgba(99,102,241,0.25)", text: "#6366f1" },
+  { bg: "rgba(16,185,129,0.06)", border: "rgba(16,185,129,0.25)", text: "#10b981" },
 ];
 
 function getSeason(date: string): number {
@@ -49,7 +49,6 @@ export default function TimelineRiver({ data }: Props) {
   const lineRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Pick one representative date per month (15th or closest)
   const dates = Object.keys(data).sort();
   const monthMap = new Map<string, string>();
   dates.forEach((d) => {
@@ -70,7 +69,6 @@ export default function TimelineRiver({ data }: Props) {
       return { date, repo: topRepo, category: cat, season: getSeason(date) };
     });
 
-  // Group milestones by season for labels
   let lastSeason = -1;
   const milestonesWithSeasonLabel = milestones.map((m) => {
     const showSeasonLabel = m.season !== lastSeason;
@@ -81,7 +79,6 @@ export default function TimelineRiver({ data }: Props) {
   useEffect(() => {
     if (!sectionRef.current || !lineRef.current) return;
 
-    // Animate the vertical river line growing
     gsap.fromTo(
       lineRef.current,
       { scaleY: 0 },
@@ -97,13 +94,13 @@ export default function TimelineRiver({ data }: Props) {
       }
     );
 
-    // Animate each timeline item
     itemsRef.current.forEach((item, i) => {
       if (!item) return;
-      const isLeft = i % 2 === 0;
+      const isMobile = window.innerWidth < 768;
+      const isLeft = !isMobile && i % 2 === 0;
       gsap.fromTo(
         item,
-        { opacity: 0, x: isLeft ? -60 : 60, scale: 0.9 },
+        { opacity: 0, x: isMobile ? 40 : isLeft ? -60 : 60, scale: 0.9 },
         {
           opacity: 1,
           x: 0,
@@ -112,7 +109,7 @@ export default function TimelineRiver({ data }: Props) {
           ease: "back.out(1.4)",
           scrollTrigger: {
             trigger: item,
-            start: "top 85%",
+            start: "top 88%",
             toggleActions: "play none none reverse",
           },
         }
@@ -125,7 +122,7 @@ export default function TimelineRiver({ data }: Props) {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-24 px-6 overflow-hidden">
+    <section ref={sectionRef} className="relative py-16 sm:py-24 px-4 sm:px-6 overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -133,71 +130,84 @@ export default function TimelineRiver({ data }: Props) {
         transition={{ duration: 0.8 }}
         className="max-w-5xl mx-auto"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
           <span className="bg-linear-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent">
             {t("timelineTitle")}
           </span>
         </h2>
-        <p className="text-slate-500 mb-16">
+        <p className="text-sm sm:text-base text-slate-500 mb-10 sm:mb-16">
           {t("timelineDesc")}
         </p>
 
-        {/* Timeline container */}
+        {/* Timeline */}
         <div className="relative">
-          {/* Central glowing river line */}
+          {/* Glowing river line — left on mobile, center on desktop */}
           <div
             ref={lineRef}
-            className="absolute left-4 md:left-1/2 top-0 bottom-0 w-[2px] md:-translate-x-1/2 origin-top"
+            className="absolute left-[18px] md:left-1/2 top-0 bottom-0 w-0.5 md:-translate-x-1/2 origin-top"
             style={{
-              background:
-                "linear-gradient(180deg, #6366f1, #a855f7, #3b82f6, #10b981, #6366f1)",
+              background: "linear-gradient(180deg, #6366f1, #a855f7, #3b82f6, #10b981, #6366f1)",
               boxShadow: "0 0 20px rgba(99,102,241,0.4), 0 0 60px rgba(99,102,241,0.1)",
             }}
           />
 
-          {/* Timeline items */}
-          <div className="relative">
-            {milestonesWithSeasonLabel.map((m, i) => {
-              const isLeft = i % 2 === 0;
-              const seasonColor = SEASON_COLORS[m.season];
+          {milestonesWithSeasonLabel.map((m, i) => {
+            const isLeft = i % 2 === 0;
+            const seasonColor = SEASON_COLORS[m.season];
 
-              return (
-                <div key={m.date} className="relative">
-                  {/* Season label */}
-                  {m.showSeasonLabel && (
-                    <div className="flex items-center justify-center mb-6 relative">
-                      <div
-                        className="hidden md:block absolute left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-xs font-semibold z-10"
-                        style={{
-                          background: seasonColor.bg,
-                          border: `1px solid ${seasonColor.border}`,
-                          color: seasonColor.text,
-                        }}
-                      >
-                        {t(SEASON_KEYS[m.season])}
-                      </div>
-                      <div
-                        className="md:hidden absolute left-4 -translate-x-1/2 ml-8 px-3 py-1 rounded-full text-xs font-semibold z-10"
-                        style={{
-                          background: seasonColor.bg,
-                          border: `1px solid ${seasonColor.border}`,
-                          color: seasonColor.text,
-                        }}
-                      >
-                        {t(SEASON_KEYS[m.season])}
-                      </div>
-                      <div className="w-full h-[1px]" style={{ background: seasonColor.border }} />
+            return (
+              <div key={m.date}>
+                {/* Season divider */}
+                {m.showSeasonLabel && (
+                  <div className="relative flex items-center mb-6 sm:mb-8">
+                    <div className="hidden md:block absolute inset-x-0 h-px" style={{ background: seasonColor.border }} />
+                    <div className="md:hidden absolute left-0 right-0 h-px" style={{ background: seasonColor.border }} />
+                    <div
+                      className="relative z-10 ml-10 md:ml-0 md:mx-auto px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold"
+                      style={{
+                        background: "#0a0a0f",
+                        border: `1px solid ${seasonColor.border}`,
+                        color: seasonColor.text,
+                      }}
+                    >
+                      {t(SEASON_KEYS[m.season])}
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  {/* Timeline row */}
-                  <div className="flex items-center mb-10 md:mb-14">
-                    {/* Left card (desktop even items) */}
-                    <div className={`hidden md:block w-[calc(50%-24px)] ${isLeft ? "" : "opacity-0 pointer-events-none"}`}>
+                {/* Timeline item */}
+                <div className="relative flex items-start mb-8 sm:mb-12 md:mb-14">
+                  {/* === MOBILE layout (< md): dot left, card right === */}
+                  <div className="md:hidden flex items-start w-full">
+                    {/* Dot */}
+                    <div className="relative z-10 shrink-0 w-[38px] flex justify-center pt-2">
+                      <div className="relative">
+                        <div
+                          className="w-3 h-3 rounded-full border-2 border-[#0a0a0f]"
+                          style={{
+                            background: m.category.color,
+                            boxShadow: `0 0 10px ${m.category.color}80`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                    {/* Card */}
+                    <div
+                      ref={(el) => { itemsRef.current[i] = el; }}
+                      className="flex-1 min-w-0"
+                    >
+                      <TimelineCard m={m} align="left" />
+                    </div>
+                  </div>
+
+                  {/* === DESKTOP layout (>= md): alternating left/right === */}
+                  <div className="hidden md:flex items-start w-full">
+                    {/* Left side */}
+                    <div className="w-[calc(50%-20px)] flex justify-end">
                       {isLeft && (
                         <div
                           ref={(el) => { itemsRef.current[i] = el; }}
-                          className="ml-auto mr-0 max-w-sm"
+                          className="max-w-sm w-full"
                         >
                           <TimelineCard m={m} align="right" />
                         </div>
@@ -205,7 +215,7 @@ export default function TimelineRiver({ data }: Props) {
                     </div>
 
                     {/* Center dot */}
-                    <div className="relative z-10 flex-shrink-0 w-12 flex justify-center md:mx-0">
+                    <div className="relative z-10 shrink-0 w-10 flex justify-center pt-2">
                       <div className="relative">
                         <div
                           className="w-4 h-4 rounded-full border-2 border-[#0a0a0f]"
@@ -214,7 +224,6 @@ export default function TimelineRiver({ data }: Props) {
                             boxShadow: `0 0 12px ${m.category.color}80, 0 0 24px ${m.category.color}30`,
                           }}
                         />
-                        {/* Pulse ring */}
                         <div
                           className="absolute inset-0 rounded-full animate-ping"
                           style={{
@@ -226,43 +235,29 @@ export default function TimelineRiver({ data }: Props) {
                       </div>
                     </div>
 
-                    {/* Right card (desktop odd items) */}
-                    <div className={`hidden md:block w-[calc(50%-24px)] ${!isLeft ? "" : "opacity-0 pointer-events-none"}`}>
+                    {/* Right side */}
+                    <div className="w-[calc(50%-20px)]">
                       {!isLeft && (
                         <div
                           ref={(el) => { itemsRef.current[i] = el; }}
-                          className="mr-auto ml-0 max-w-sm"
+                          className="max-w-sm w-full"
                         >
                           <TimelineCard m={m} align="left" />
                         </div>
                       )}
                     </div>
-
-                    {/* Mobile card (always right) */}
-                    <div className="md:hidden flex-1 pl-2">
-                      <div
-                        ref={(el) => {
-                          // Only set ref on mobile if not already set for desktop
-                          if (typeof window !== "undefined" && window.innerWidth < 768) {
-                            itemsRef.current[i] = el;
-                          }
-                        }}
-                      >
-                        <TimelineCard m={m} align="left" />
-                      </div>
-                    </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       </motion.div>
     </section>
   );
 }
 
-/* ---------- Timeline Card Sub-component ---------- */
+/* ---------- Timeline Card ---------- */
 
 interface CardProps {
   m: {
@@ -278,38 +273,40 @@ function TimelineCard({ m, align }: CardProps) {
   const seasonColor = SEASON_COLORS[m.season];
 
   return (
-    <div className={`relative ${align === "right" ? "text-right" : "text-left"}`}>
-      {/* Connector line from dot to card */}
+    <a
+      href={`https://github.com/${m.repo.author}/${m.repo.title}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`block relative ${align === "right" ? "text-right" : "text-left"}`}
+    >
+      {/* Connector line */}
       <div
-        className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-[1px] w-6 ${
-          align === "right" ? "right-0 -mr-6" : "left-0 -ml-6"
+        className={`hidden md:block absolute top-4 h-px w-5 ${
+          align === "right" ? "right-0 -mr-5" : "left-0 -ml-5"
         }`}
         style={{
           background: `linear-gradient(${align === "right" ? "to right" : "to left"}, ${m.category.color}60, transparent)`,
         }}
       />
 
-      {/* Date label */}
-      <div className="text-xs text-slate-500 mb-1.5 font-mono">
+      {/* Date */}
+      <div className="text-[10px] sm:text-xs text-slate-500 mb-1 font-mono">
         {formatMonth(m.date)}
       </div>
 
-      {/* Card */}
+      {/* Card body */}
       <div
-        className="glass-card p-4 relative group hover:scale-[1.02] transition-all duration-300"
-        style={{
-          borderColor: `${m.category.color}15`,
-        }}
+        className="glass-card p-3 sm:p-4 relative group hover:scale-[1.02] transition-all duration-300"
+        style={{ borderColor: `${m.category.color}15` }}
       >
-        {/* Season gradient overlay */}
         <div
           className="absolute inset-0 rounded-2xl pointer-events-none opacity-40"
           style={{ background: seasonColor.bg }}
         />
 
-        <div className={`relative flex items-center gap-2.5 mb-2 ${align === "right" ? "flex-row-reverse" : ""}`}>
+        <div className={`relative flex items-center gap-2 sm:gap-2.5 mb-2 ${align === "right" ? "flex-row-reverse" : ""}`}>
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-xs sm:text-sm font-bold shrink-0"
             style={{
               background: `${m.category.color}20`,
               color: m.category.color,
@@ -318,22 +315,22 @@ function TimelineCard({ m, align }: CardProps) {
             {m.repo.title.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0">
-            <h4 className="text-sm font-semibold text-white truncate">
+            <h4 className="text-xs sm:text-sm font-semibold text-white truncate group-hover:text-indigo-300 transition-colors">
               {m.repo.title}
             </h4>
-            <p className="text-[11px] text-slate-500 truncate">
+            <p className="text-[10px] sm:text-[11px] text-slate-500 truncate">
               {m.repo.author}
             </p>
           </div>
         </div>
 
-        <p className={`relative text-xs text-slate-400 line-clamp-2 mb-3 ${align === "right" ? "text-right" : "text-left"}`}>
+        <p className={`relative text-[11px] sm:text-xs text-slate-400 line-clamp-2 mb-2 sm:mb-3 ${align === "right" ? "text-right" : "text-left"}`}>
           {m.repo.description || "No description"}
         </p>
 
         <div className={`relative flex ${align === "right" ? "justify-end" : "justify-start"}`}>
           <span
-            className="text-[10px] px-2 py-0.5 rounded-full"
+            className="text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded-full"
             style={{
               background: `${m.category.color}15`,
               color: m.category.color,
@@ -344,14 +341,11 @@ function TimelineCard({ m, align }: CardProps) {
           </span>
         </div>
 
-        {/* Hover glow */}
         <div
           className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-          style={{
-            boxShadow: `0 0 30px ${m.category.color}15, inset 0 0 30px ${m.category.color}05`,
-          }}
+          style={{ boxShadow: `0 0 30px ${m.category.color}15, inset 0 0 30px ${m.category.color}05` }}
         />
       </div>
-    </div>
+    </a>
   );
 }

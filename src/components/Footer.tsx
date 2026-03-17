@@ -6,7 +6,7 @@ export default function Footer() {
   const { t } = useI18n();
 
   return (
-    <footer className="relative py-12 px-6 border-t border-white/5">
+    <footer className="relative py-8 sm:py-12 px-4 sm:px-6 border-t border-white/5">
       <div className="max-w-6xl mx-auto text-center">
         <p className="text-sm text-slate-500">
           {t("footerData")}{" "}

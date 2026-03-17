@@ -14,7 +14,7 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 text-center">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 text-center">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -38,7 +38,7 @@ export default function HeroSection() {
           {t("heroSubtitle")}
         </motion.p>
 
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-tight">
           <span className="bg-linear-to-r from-indigo-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
             {t("heroTitle")}
           </span>
@@ -47,7 +47,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-white/90 text-3xl md:text-5xl lg:text-6xl font-light"
+            className="text-white/90 text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-light"
           >
             {t("heroDesc")}
           </motion.span>
@@ -57,7 +57,7 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.6 }}
           transition={{ delay: 0.8, duration: 1 }}
-          className="mt-6 text-lg md:text-xl text-slate-400 max-w-2xl mx-auto whitespace-pre-line"
+          className="mt-4 sm:mt-6 text-sm sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto whitespace-pre-line"
         >
           {t("heroBody")}
         </motion.p>
@@ -67,7 +67,7 @@ export default function HeroSection() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 0.8 }}
-        className="relative z-10 mt-16 flex gap-8 md:gap-16"
+        className="relative z-10 mt-10 sm:mt-16 flex gap-6 sm:gap-8 md:gap-16"
       >
         {STATS.map((stat, i) => (
           <motion.div
@@ -77,7 +77,7 @@ export default function HeroSection() {
             transition={{ delay: 1.4 + i * 0.15, type: "spring" }}
             className="text-center"
           >
-            <div className="text-3xl md:text-5xl font-bold bg-linear-to-b from-white to-white/50 bg-clip-text text-transparent">
+            <div className="text-2xl sm:text-3xl md:text-5xl font-bold bg-linear-to-b from-white to-white/50 bg-clip-text text-transparent">
               <AnimatedCounter value={stat.value} suffix={stat.suffix} />
             </div>
             <div className="text-xs md:text-sm text-slate-500 mt-1">

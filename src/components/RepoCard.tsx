@@ -39,6 +39,7 @@ export default function RepoCard({ repo, category, appearances, index }: Props) 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ delay: index * 0.05, duration: 0.5, ease: "easeOut" }}
+      className="h-full"
     >
       <a
         href={`https://github.com/${repo.author}/${repo.title}`}
@@ -47,14 +48,14 @@ export default function RepoCard({ repo, category, appearances, index }: Props) 
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="glass-card glow-border p-5 cursor-pointer transition-[transform] duration-200 ease-out group block"
+        className="glass-card glow-border p-4 sm:p-5 cursor-pointer transition-[transform] duration-200 ease-out group flex flex-col h-full"
         style={{ willChange: "transform" }}
       >
         {/* Header */}
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center gap-2.5">
+        <div className="flex items-start justify-between mb-2 sm:mb-3">
+          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
             <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-xs sm:text-sm font-bold shrink-0"
               style={{
                 background: `${category.color}20`,
                 color: category.color,
@@ -62,17 +63,17 @@ export default function RepoCard({ repo, category, appearances, index }: Props) 
             >
               {repo.title.charAt(0).toUpperCase()}
             </div>
-            <div>
-              <h3 className="font-semibold text-white group-hover:text-indigo-300 transition-colors">
+            <div className="min-w-0">
+              <h3 className="text-sm font-semibold text-white group-hover:text-indigo-300 transition-colors truncate">
                 {repo.title}
               </h3>
-              <p className="text-xs text-slate-500">{repo.author}</p>
+              <p className="text-xs text-slate-500 truncate">{repo.author}</p>
             </div>
           </div>
 
           {appearances && appearances > 1 && (
             <span
-              className="text-xs px-2 py-0.5 rounded-full font-medium pulse-glow"
+              className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full font-medium pulse-glow shrink-0 ml-2"
               style={{
                 background: `${category.color}20`,
                 color: category.color,
@@ -83,15 +84,15 @@ export default function RepoCard({ repo, category, appearances, index }: Props) 
           )}
         </div>
 
-        {/* Description */}
-        <p className="text-sm text-slate-400 leading-relaxed line-clamp-2 mb-3">
+        {/* Description — fixed 2-line height */}
+        <p className="text-xs sm:text-sm text-slate-400 leading-relaxed line-clamp-2 mb-3 flex-1">
           {repo.description || "No description"}
         </p>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between">
+        {/* Footer — always at bottom */}
+        <div className="flex items-center justify-between mt-auto">
           <span
-            className="text-xs px-2 py-0.5 rounded-full"
+            className="text-[10px] sm:text-xs px-2 py-0.5 rounded-full"
             style={{
               background: `${category.color}15`,
               color: category.color,
@@ -100,15 +101,9 @@ export default function RepoCard({ repo, category, appearances, index }: Props) 
           >
             {category.name}
           </span>
-          <a
-            href={`https://github.com/${repo.author}/${repo.title}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="relative z-20 text-xs text-slate-500 hover:text-indigo-400 transition-colors px-2 py-1 -mr-2 -mb-1"
-          >
+          <span className="text-[10px] sm:text-xs text-slate-500 group-hover:text-indigo-400 transition-colors">
             GitHub &rarr;
-          </a>
+          </span>
         </div>
       </a>
     </motion.div>
