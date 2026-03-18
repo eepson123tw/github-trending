@@ -1,23 +1,28 @@
 import { ImageResponse } from "next/og";
+import { CATEGORIES } from "@/lib/categories";
 
 export const alt = "GitHub Trending Observatory";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+const CATEGORY_COUNT = CATEGORIES.length - 1; // exclude "Other"
+
 async function getStats() {
   const url = process.env.APPS_SCRIPT_URL;
-  if (!url) return { days: 0, repos: 0, categories: 14, dateRange: "2025-03 ~ now" };
+  if (!url) return { days: 0, repos: 0, categories: CATEGORY_COUNT, dateRange: "2025-03 ~ now" };
   try {
     const res = await fetch(url, { next: { revalidate: 86400 } });
     const data = await res.json();
     const dates = Object.keys(data).sort();
-    let repos = 0;
-    for (const arr of Object.values(data) as Array<unknown[]>) repos += arr.length;
+    const urls = new Set<string>();
+    for (const arr of Object.values(data) as Array<{ url?: string; author?: string; title?: string }[]>) {
+      for (const r of arr) urls.add((r.url || `${r.author}/${r.title}`).toLowerCase());
+    }
     const start = dates[0]?.slice(0, 7) || "2025-03";
     const end = dates[dates.length - 1]?.slice(0, 7) || "now";
-    return { days: dates.length, repos, categories: 14, dateRange: `${start} ~ ${end}` };
+    return { days: dates.length, repos: urls.size, categories: CATEGORY_COUNT, dateRange: `${start} ~ ${end}` };
   } catch {
-    return { days: 0, repos: 0, categories: 14, dateRange: "2025-03 ~ now" };
+    return { days: 0, repos: 0, categories: CATEGORY_COUNT, dateRange: "2025-03 ~ now" };
   }
 }
 

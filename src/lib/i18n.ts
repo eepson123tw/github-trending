@@ -8,7 +8,8 @@ export const translations = {
     heroDesc: "年度趨勢觀測站",
     heroBody: "{{days}} 天、{{repos}} 個開源專案的脈動，\n看見技術世界的潮起潮落",
     statDays: "天數",
-    statRepos: "Repos 收錄",
+    statRepos: "獨立 Repo",
+    statAppearances: "上榜次數",
     statCategories: "技術分類",
     scrollToExplore: "往下滾動探索",
 
@@ -87,7 +88,8 @@ export const translations = {
     heroDesc: "Annual Trend Observatory",
     heroBody: "{{days}} days, {{repos}} open-source projects\u2019 pulse.\nWitness the rise and fall of the tech world.",
     statDays: "Days",
-    statRepos: "Repos Tracked",
+    statRepos: "Unique Repos",
+    statAppearances: "Appearances",
     statCategories: "Categories",
     scrollToExplore: "Scroll to explore",
 
@@ -158,7 +160,8 @@ export const translations = {
     heroDesc: "年度趋势观测站",
     heroBody: "{{days}} 天、{{repos}} 个开源项目的脉动，\n看见技术世界的潮起潮落",
     statDays: "天数",
-    statRepos: "Repos 收录",
+    statRepos: "独立 Repo",
+    statAppearances: "上榜次数",
     statCategories: "技术分类",
     scrollToExplore: "往下滚动探索",
 

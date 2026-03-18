@@ -10,7 +10,8 @@ export default function HeroSection({ stats }: { stats: DataStats }) {
 
   const STATS = [
     { label: t("statDays"), value: stats.days, suffix: " days" },
-    { label: t("statRepos"), value: stats.totalEntries, suffix: "" },
+    { label: t("statRepos"), value: stats.uniqueRepos, suffix: "" },
+    { label: t("statAppearances"), value: stats.totalEntries, suffix: "" },
     { label: t("statCategories"), value: stats.categories, suffix: "" },
   ];
 
@@ -60,7 +61,7 @@ export default function HeroSection({ stats }: { stats: DataStats }) {
           transition={{ delay: 0.8, duration: 1 }}
           className="mt-4 sm:mt-6 text-sm sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto whitespace-pre-line"
         >
-          {t("heroBody", { days: stats.days, repos: stats.totalEntries.toLocaleString() })}
+          {t("heroBody", { days: stats.days, repos: stats.uniqueRepos.toLocaleString() })}
         </motion.p>
       </motion.div>
 

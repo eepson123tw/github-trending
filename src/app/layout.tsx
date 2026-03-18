@@ -9,7 +9,7 @@ const TITLE = "GitHub Trending Observatory";
 export async function generateMetadata(): Promise<Metadata> {
   const data = await fetchTrendingData();
   const stats = computeStats(data);
-  const description = `${stats.days} 天、${stats.totalEntries} 個開源專案的脈動 — GitHub Trending 資料視覺化觀測站 | A ${stats.days}-day GitHub Trending data visualization observatory`;
+  const description = `${stats.days} 天、${stats.uniqueRepos} 個開源專案的脈動 — GitHub Trending 資料視覺化觀測站 | A ${stats.days}-day GitHub Trending data visualization observatory`;
 
   return {
     title: TITLE,
