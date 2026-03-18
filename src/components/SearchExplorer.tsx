@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { DailyData } from "@/lib/categories";
 import { CATEGORIES, getTopRepos } from "@/lib/categories";
 import RepoCard from "./RepoCard";
 import { useI18n } from "@/lib/i18n-context";
+
+const PAGE_SIZE = 30;
 
 interface Props {
   data: DailyData;
@@ -15,10 +17,16 @@ export default function SearchExplorer({ data }: Props) {
   const { t } = useI18n();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const allRepos = useMemo(() => getTopRepos(data), [data]);
 
-  const filtered = useMemo(() => {
+  // Reset visible count when filters change
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [search, activeCategory]);
+
+  const allFiltered = useMemo(() => {
     let repos = allRepos;
     if (activeCategory) {
       repos = repos.filter((r) => r.category.name === activeCategory);
@@ -32,8 +40,15 @@ export default function SearchExplorer({ data }: Props) {
           (r.description || "").toLowerCase().includes(q)
       );
     }
-    return repos.slice(0, 30);
+    return repos;
   }, [allRepos, activeCategory, search]);
+
+  const filtered = useMemo(
+    () => allFiltered.slice(0, visibleCount),
+    [allFiltered, visibleCount]
+  );
+
+  const hasMore = visibleCount < allFiltered.length;
 
   return (
     <section className="relative py-16 sm:py-24 px-4 sm:px-6">
@@ -153,7 +168,7 @@ export default function SearchExplorer({ data }: Props) {
 
         {/* Results count */}
         <p className="text-xs text-slate-600 mb-4">
-          {filtered.length} {t("searchResults")}
+          {filtered.length} / {allFiltered.length} {t("searchResults")}
           {search && ` ${t("searchFor")} "${search}"`}
           {activeCategory && ` ${t("searchIn")} ${activeCategory}`}
         </p>
@@ -168,7 +183,7 @@ export default function SearchExplorer({ data }: Props) {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3, delay: i * 0.02 }}
+                transition={{ duration: 0.3, delay: Math.max(0, i - (visibleCount - PAGE_SIZE)) * 0.02 }}
               >
                 <RepoCard
                   repo={repo}
@@ -180,6 +195,34 @@ export default function SearchExplorer({ data }: Props) {
             ))}
           </AnimatePresence>
         </div>
+
+        {/* Load More */}
+        {hasMore && (
+          <div className="flex flex-col items-center mt-8 gap-2">
+            <button
+              onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+              className="group relative px-8 py-3 rounded-full text-sm font-medium text-white transition-all duration-300 hover:scale-105 active:scale-95"
+              style={{
+                background: "linear-gradient(135deg, rgba(99,102,241,0.2), rgba(168,85,247,0.2))",
+                border: "1px solid rgba(99,102,241,0.3)",
+                boxShadow: "0 0 20px rgba(99,102,241,0.1)",
+              }}
+            >
+              <span className="relative z-10">
+                {t("loadMore")} ({Math.min(PAGE_SIZE, allFiltered.length - visibleCount)})
+              </span>
+              <div
+                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: "linear-gradient(135deg, rgba(99,102,241,0.3), rgba(168,85,247,0.3))",
+                }}
+              />
+            </button>
+            <p className="text-[11px] text-slate-600">
+              {allFiltered.length - visibleCount} {t("remaining")}
+            </p>
+          </div>
+        )}
 
         {filtered.length === 0 && (
           <motion.div

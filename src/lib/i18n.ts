@@ -65,6 +65,8 @@ export const translations = {
     searchResults: "筆結果",
     searchFor: "搜尋",
     searchIn: "在",
+    loadMore: "載入更多",
+    remaining: "筆尚未顯示",
     noResults: "找不到相關 Repo",
     noResultsHint: "試試其他關鍵字或清除篩選",
 
@@ -136,6 +138,8 @@ export const translations = {
     searchResults: "results",
     searchFor: "for",
     searchIn: "in",
+    loadMore: "Load More",
+    remaining: "more to explore",
     noResults: "No repos found",
     noResultsHint: "Try different keywords or clear filters",
 
