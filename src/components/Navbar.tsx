@@ -8,6 +8,7 @@ export default function Navbar() {
   const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const NAV_ITEMS = [
     { label: t("navTrends"), href: "#trends" },
@@ -22,6 +23,26 @@ export default function Navbar() {
     const onScroll = () => setScrolled(window.scrollY > 100);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Track which section is in view
+  useEffect(() => {
+    const ids = NAV_ITEMS.map((item) => item.href.slice(1));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection("#" + entry.target.id);
+          }
+        }
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    for (const id of ids) {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    }
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -49,7 +70,11 @@ export default function Navbar() {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-xs text-slate-400 hover:text-white transition-colors whitespace-nowrap hidden md:block"
+                className={`text-xs transition-colors whitespace-nowrap hidden md:block ${
+                  activeSection === item.href
+                    ? "text-white font-medium"
+                    : "text-slate-400 hover:text-white"
+                }`}
               >
                 {item.label}
               </a>
@@ -91,7 +116,11 @@ export default function Navbar() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="text-xs text-slate-400 hover:text-white transition-colors py-1.5 px-2 rounded-lg hover:bg-white/5"
+                    className={`text-xs transition-colors py-1.5 px-2 rounded-lg ${
+                      activeSection === item.href
+                        ? "text-white bg-white/10 font-medium"
+                        : "text-slate-400 hover:text-white hover:bg-white/5"
+                    }`}
                   >
                     {item.label}
                   </a>
