@@ -3,6 +3,16 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import { translations, type Locale, type TranslationKey } from "./i18n";
 
+function detectLocale(): Locale {
+  if (typeof window === "undefined") return "zh-TW";
+  const lang = navigator.language;
+  if (lang.startsWith("zh")) {
+    // zh-CN, zh-SG, zh-Hans → 简中；其餘 (zh-TW, zh-HK, zh-Hant) → 繁中
+    return /CN|SG|Hans/i.test(lang) ? "zh-CN" : "zh-TW";
+  }
+  return "en";
+}
+
 interface I18nContextType {
   locale: Locale;
   t: (key: TranslationKey, vars?: Record<string, string | number>) => string;
@@ -12,7 +22,7 @@ interface I18nContextType {
 const I18nContext = createContext<I18nContextType | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useState<Locale>("zh-TW");
+  const [locale, setLocale] = useState<Locale>(detectLocale);
 
   const t = useCallback(
     (key: TranslationKey, vars?: Record<string, string | number>) => {
