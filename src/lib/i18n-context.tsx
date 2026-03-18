@@ -5,7 +5,7 @@ import { translations, type Locale, type TranslationKey } from "./i18n";
 
 interface I18nContextType {
   locale: Locale;
-  t: (key: TranslationKey) => string;
+  t: (key: TranslationKey, vars?: Record<string, string | number>) => string;
   toggleLocale: () => void;
 }
 
@@ -15,7 +15,15 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocale] = useState<Locale>("zh-TW");
 
   const t = useCallback(
-    (key: TranslationKey) => translations[locale][key] || key,
+    (key: TranslationKey, vars?: Record<string, string | number>) => {
+      let text: string = translations[locale][key] || key;
+      if (vars) {
+        for (const [k, v] of Object.entries(vars)) {
+          text = text.replaceAll(`{{${k}}}`, String(v));
+        }
+      }
+      return text;
+    },
     [locale]
   );
 

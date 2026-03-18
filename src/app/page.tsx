@@ -13,11 +13,13 @@ import Footer from "@/components/Footer";
 import MusicPlayer from "@/components/MusicPlayer";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { fetchTrendingData } from "@/lib/sheets";
+import { computeStats } from "@/lib/categories";
 
 export const revalidate = 86400; // ISR: regenerate every 24 hours
 
 export default async function Home() {
   const data = await fetchTrendingData();
+  const stats = computeStats(data);
 
   return (
     <I18nProvider>
@@ -28,7 +30,7 @@ export default async function Home() {
         <MusicPlayer />
         <LanguageSwitcher />
         <div className="relative z-10">
-          <HeroSection />
+          <HeroSection stats={stats} />
           <div id="trends">
             <TrendChart data={data} />
           </div>
@@ -36,10 +38,10 @@ export default async function Home() {
             <TimelineRiver data={data} />
           </div>
           <div id="categories">
-            <CategoryBubbles data={data} />
+            <CategoryBubbles data={data} stats={stats} />
           </div>
           <div id="insights">
-            <InsightCards />
+            <InsightCards stats={stats} />
           </div>
           <div id="explore">
             <SearchExplorer data={data} />
@@ -47,7 +49,7 @@ export default async function Home() {
           <div id="leaderboard">
             <TopRepos data={data} />
           </div>
-          <Footer />
+          <Footer stats={stats} />
         </div>
       </main>
     </I18nProvider>

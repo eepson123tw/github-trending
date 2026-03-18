@@ -3,14 +3,15 @@
 import { motion } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
 import { useI18n } from "@/lib/i18n-context";
+import type { DataStats } from "@/lib/categories";
 
-export default function HeroSection() {
+export default function HeroSection({ stats }: { stats: DataStats }) {
   const { t } = useI18n();
 
   const STATS = [
-    { label: t("statDays"), value: 354, suffix: " days" },
-    { label: t("statRepos"), value: 4995, suffix: "" },
-    { label: t("statCategories"), value: 15, suffix: "" },
+    { label: t("statDays"), value: stats.days, suffix: " days" },
+    { label: t("statRepos"), value: stats.totalEntries, suffix: "" },
+    { label: t("statCategories"), value: stats.categories, suffix: "" },
   ];
 
   return (
@@ -59,7 +60,7 @@ export default function HeroSection() {
           transition={{ delay: 0.8, duration: 1 }}
           className="mt-4 sm:mt-6 text-sm sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto whitespace-pre-line"
         >
-          {t("heroBody")}
+          {t("heroBody", { days: stats.days, repos: stats.totalEntries.toLocaleString() })}
         </motion.p>
       </motion.div>
 

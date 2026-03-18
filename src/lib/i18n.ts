@@ -6,7 +6,7 @@ export const translations = {
     heroSubtitle: "Open Source Universe",
     heroTitle: "GitHub Trending",
     heroDesc: "年度趨勢觀測站",
-    heroBody: "354 天、4995 個開源專案的脈動，\n看見技術世界的潮起潮落",
+    heroBody: "{{days}} 天、{{repos}} 個開源專案的脈動，\n看見技術世界的潮起潮落",
     statDays: "天數",
     statRepos: "Repos 收錄",
     statCategories: "技術分類",
@@ -39,12 +39,12 @@ export const translations = {
 
     // Category Bubbles
     catTitle: "分類生態圈",
-    catDesc: "1,442 個 Repo 的知識圖譜 — 每個點都是一個開源專案",
+    catDesc: "{{uniqueRepos}} 個 Repo 的知識圖譜 — 每個點都是一個開源專案",
     catHint: "滾輪縮放 · 拖曳移動 · 懸停查看 · 點擊 Repo 開啟 GitHub",
 
     // Insights
     insightTitle: "趨勢洞察",
-    insightDesc: "從 354 天的資料中提煉出的關鍵發現",
+    insightDesc: "從 {{days}} 天的資料中提煉出的關鍵發現",
     insight1Title: "AI Agent 主宰一整年",
     insight1Desc: "從教學入門到生產級框架，Agent 相關 repo 在每個季度都佔據 trending 最大份額。",
     insight2Title: "MCP 半年征服世界",
@@ -83,7 +83,7 @@ export const translations = {
     heroSubtitle: "Open Source Universe",
     heroTitle: "GitHub Trending",
     heroDesc: "Annual Trend Observatory",
-    heroBody: "354 days, 4995 open-source projects\u2019 pulse.\nWitness the rise and fall of the tech world.",
+    heroBody: "{{days}} days, {{repos}} open-source projects\u2019 pulse.\nWitness the rise and fall of the tech world.",
     statDays: "Days",
     statRepos: "Repos Tracked",
     statCategories: "Categories",
@@ -112,11 +112,11 @@ export const translations = {
     spring2026: "2026 Spring",
 
     catTitle: "Category Ecosystem",
-    catDesc: "Knowledge graph of 1,442 repos — every dot is an open-source project",
+    catDesc: "Knowledge graph of {{uniqueRepos}} repos — every dot is an open-source project",
     catHint: "Scroll to zoom · drag to move · hover to explore · click repo to open GitHub",
 
     insightTitle: "Trend Insights",
-    insightDesc: "Key findings distilled from 354 days of data",
+    insightDesc: "Key findings distilled from {{days}} days of data",
     insight1Title: "AI Agents Dominated All Year",
     insight1Desc: "From beginner tutorials to production frameworks, Agent repos held the largest trending share every quarter.",
     insight2Title: "MCP Conquered in 6 Months",

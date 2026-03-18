@@ -3,12 +3,13 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import * as d3 from "d3";
 import { motion } from "framer-motion";
-import type { DailyData, Repo } from "@/lib/categories";
+import type { DailyData, DataStats, Repo } from "@/lib/categories";
 import { CATEGORIES, categorize, getTopRepos } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n-context";
 
 interface Props {
   data: DailyData;
+  stats: DataStats;
 }
 
 interface GNode extends d3.SimulationNodeDatum {
@@ -36,7 +37,7 @@ interface TooltipInfo {
   node: GNode;
 }
 
-export default function CategoryBubbles({ data }: Props) {
+export default function CategoryBubbles({ data, stats }: Props) {
   const { t } = useI18n();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -524,7 +525,7 @@ export default function CategoryBubbles({ data }: Props) {
           </span>
         </h2>
         <p className="text-sm sm:text-base text-slate-500 mb-1 sm:mb-2">
-          {t("catDesc")}
+          {t("catDesc", { uniqueRepos: stats.uniqueRepos.toLocaleString() })}
         </p>
         <p className="text-[10px] sm:text-xs text-slate-600 mb-4 sm:mb-6">
           {t("catHint")}

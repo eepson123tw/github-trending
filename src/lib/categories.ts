@@ -377,6 +377,38 @@ export function buildTrendData(data: DailyData): TrendPoint[] {
   return points.sort((a, b) => a.date.localeCompare(b.date));
 }
 
+export interface DataStats {
+  days: number;
+  totalEntries: number;
+  uniqueRepos: number;
+  categories: number;
+  dateRange: { start: string; end: string };
+}
+
+export function computeStats(data: DailyData): DataStats {
+  const dates = Object.keys(data).sort();
+  let totalEntries = 0;
+  const urls = new Set<string>();
+
+  for (const repos of Object.values(data)) {
+    totalEntries += repos.length;
+    for (const repo of repos) {
+      urls.add((repo.url || `${repo.author}/${repo.title}`).toLowerCase());
+    }
+  }
+
+  return {
+    days: dates.length,
+    totalEntries,
+    uniqueRepos: urls.size,
+    categories: CATEGORIES.length - 1, // exclude "Other"
+    dateRange: {
+      start: dates[0] || "",
+      end: dates[dates.length - 1] || "",
+    },
+  };
+}
+
 export function getTopRepos(data: DailyData): (Repo & { appearances: number; dates: string[]; category: CategoryDef })[] {
   const map = new Map<string, { repo: Repo; dates: string[] }>();
   for (const [date, repos] of Object.entries(data)) {

@@ -1,11 +1,28 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
 export const alt = "GitHub Trending Observatory";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+async function getStats() {
+  const url = process.env.APPS_SCRIPT_URL;
+  if (!url) return { days: 0, repos: 0, categories: 14, dateRange: "2025-03 ~ now" };
+  try {
+    const res = await fetch(url, { next: { revalidate: 86400 } });
+    const data = await res.json();
+    const dates = Object.keys(data).sort();
+    let repos = 0;
+    for (const arr of Object.values(data) as Array<unknown[]>) repos += arr.length;
+    const start = dates[0]?.slice(0, 7) || "2025-03";
+    const end = dates[dates.length - 1]?.slice(0, 7) || "now";
+    return { days: dates.length, repos, categories: 14, dateRange: `${start} ~ ${end}` };
+  } catch {
+    return { days: 0, repos: 0, categories: 14, dateRange: "2025-03 ~ now" };
+  }
+}
+
 export default async function Image() {
+  const stats = await getStats();
   return new ImageResponse(
     (
       <div
@@ -131,9 +148,9 @@ export default async function Image() {
           }}
         >
           {[
-            { value: "354", label: "Days" },
-            { value: "4,995", label: "Repos" },
-            { value: "12", label: "Categories" },
+            { value: stats.days.toLocaleString(), label: "Days" },
+            { value: stats.repos.toLocaleString(), label: "Repos" },
+            { value: String(stats.categories), label: "Categories" },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -179,7 +196,7 @@ export default async function Image() {
         >
           <span>github-trending.zeabur.app</span>
           <span style={{ margin: "0 4px" }}>·</span>
-          <span>2025-03 ~ 2026-03</span>
+          <span>{stats.dateRange}</span>
         </div>
       </div>
     ),

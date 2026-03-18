@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useI18n } from "@/lib/i18n-context";
 import type { TranslationKey } from "@/lib/i18n";
+import type { DataStats } from "@/lib/categories";
 
 const INSIGHTS: {
   icon: string;
@@ -55,7 +56,7 @@ const INSIGHTS: {
   },
 ];
 
-export default function InsightCards() {
+export default function InsightCards({ stats }: { stats: DataStats }) {
   const { t } = useI18n();
 
   return (
@@ -72,7 +73,7 @@ export default function InsightCards() {
             {t("insightTitle")}
           </span>
         </h2>
-        <p className="text-sm sm:text-base text-slate-500 mb-8 sm:mb-10">{t("insightDesc")}</p>
+        <p className="text-sm sm:text-base text-slate-500 mb-8 sm:mb-10">{t("insightDesc", { days: stats.days })}</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
           {INSIGHTS.map((insight, i) => (

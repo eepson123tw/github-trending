@@ -1,8 +1,9 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n-context";
+import type { DataStats } from "@/lib/categories";
 
-export default function Footer() {
+export default function Footer({ stats }: { stats: DataStats }) {
   const { t } = useI18n();
 
   return (
@@ -18,7 +19,7 @@ export default function Footer() {
           >
             GitHub Trending
           </a>{" "}
-          &middot; 2025-03-27 ~ 2026-03-15
+          &middot; {stats.dateRange.start} ~ {stats.dateRange.end}
         </p>
         <p className="text-xs text-slate-600 mt-2">
           {t("footerBuilt")}
