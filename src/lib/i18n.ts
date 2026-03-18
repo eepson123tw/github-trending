@@ -1,4 +1,4 @@
-export type Locale = "zh-TW" | "en";
+export type Locale = "zh-TW" | "zh-CN" | "en";
 
 export const translations = {
   "zh-TW": {
@@ -150,6 +150,86 @@ export const translations = {
     footerBuilt: "Built with Next.js · D3.js · Framer Motion",
 
     nowPlaying: "Now Playing",
+  },
+  "zh-CN": {
+    // Hero
+    heroSubtitle: "Open Source Universe",
+    heroTitle: "GitHub Trending",
+    heroDesc: "年度趋势观测站",
+    heroBody: "{{days}} 天、{{repos}} 个开源项目的脉动，\n看见技术世界的潮起潮落",
+    statDays: "天数",
+    statRepos: "Repos 收录",
+    statCategories: "技术分类",
+    scrollToExplore: "往下滚动探索",
+
+    // Navbar
+    navTrends: "趋势图",
+    navTimeline: "时间轴",
+    navCategories: "分类",
+    navInsights: "洞察",
+    navExplore: "探索",
+    navLeaderboard: "排行榜",
+
+    // Trend Chart
+    trendTitle: "趋势演变",
+    trendDesc: "河流图呈现各分类此消彼长的趋势 — 点击分类可聚焦查看",
+    trendHintStream: "悬停查看数值 · 点击分类名称聚焦单一趋势",
+    trendHintIsolated: "查看单一分类的趋势走势 · 点击「返回总览」回到河流图",
+    trendBackToOverview: "返回总览",
+    trendBandwidthHint: "色带宽度 ＝ 该分类每周上榜数量",
+
+    // Timeline
+    timelineTitle: "时间河流",
+    timelineDesc: "滚动穿越一整年的开源趋势 — 每月精选代表 Repo",
+    spring2025: "2025 春",
+    summer2025: "2025 夏",
+    autumn2025: "2025 秋",
+    winter2025: "2025 冬",
+    spring2026: "2026 春",
+
+    // Category Bubbles
+    catTitle: "分类生态圈",
+    catDesc: "{{uniqueRepos}} 个 Repo 的知识图谱 — 每个点都是一个开源项目",
+    catHint: "滚轮缩放 · 拖拽移动 · 悬停查看 · 点击 Repo 打开 GitHub",
+
+    // Insights
+    insightTitle: "趋势洞察",
+    insightDesc: "从 {{days}} 天的数据中提炼出的关键发现",
+    insight1Title: "AI Agent 主宰一整年",
+    insight1Desc: "从教学入门到生产级框架，Agent 相关 repo 在每个季度都占据 trending 最大份额。",
+    insight2Title: "MCP 半年征服世界",
+    insight2Desc: "Model Context Protocol 从 2025 年 9 月首次出现到被 Docker、Chrome、Figma 采用，只花了 6 个月。",
+    insight3Title: "AI 记忆系统四代演化",
+    insight3Desc: "mem0 → graphiti → Memori → OpenViking，从简单记忆到上下文数据库的完整进化路线。",
+    insight4Title: "RAG 从教学走向产品",
+    insight4Desc: "年初是 all-rag-techniques 教学文，年底是 openrag 一站式平台，技术成熟度大幅提升。",
+    insight5Title: "AI 金融持续热门",
+    insight5Desc: "ai-hedge-fund 跨越三个季度反复上榜，显示 AI + Finance 是持久性需求而非一时话题。",
+    insight6Title: "中国开源生态活跃",
+    insight6Desc: "alibaba、volcengine、datawhalechina 等组织贡献大量 AI 工具，中国开发者参与度极高。",
+
+    // Search
+    searchTitle: "探索所有 Repo",
+    searchDesc: "搜索关键字或按分类筛选",
+    searchPlaceholder: "搜索 repo、作者、描述...",
+    searchResults: "条结果",
+    searchFor: "搜索",
+    searchIn: "在",
+    loadMore: "加载更多",
+    remaining: "条尚未显示",
+    noResults: "找不到相关 Repo",
+    noResultsHint: "试试其他关键字或清除筛选",
+
+    // Leaderboard
+    leaderTitle: "常青排行榜",
+    leaderDesc: "重复上榜次数最多的 Repo — 真正的持久趋势",
+
+    // Footer
+    footerData: "数据来源",
+    footerBuilt: "使用 Next.js · D3.js · Framer Motion 打造",
+
+    // Music Player
+    nowPlaying: "正在播放",
   },
 } as const;
 

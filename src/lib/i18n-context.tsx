@@ -28,7 +28,10 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   );
 
   const toggleLocale = useCallback(() => {
-    setLocale((prev) => (prev === "zh-TW" ? "en" : "zh-TW"));
+    setLocale((prev) => {
+      const order: Locale[] = ["zh-TW", "zh-CN", "en"];
+      return order[(order.indexOf(prev) + 1) % order.length];
+    });
   }, []);
 
   return (
