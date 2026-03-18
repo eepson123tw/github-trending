@@ -1,5 +1,3 @@
-"use client";
-
 import { I18nProvider } from "@/lib/i18n-context";
 import StarField from "@/components/StarField";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -14,11 +12,12 @@ import TopRepos from "@/components/TopRepos";
 import Footer from "@/components/Footer";
 import MusicPlayer from "@/components/MusicPlayer";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import trendingData from "@/data/trending.json";
-import type { DailyData } from "@/lib/categories";
+import { fetchTrendingData } from "@/lib/sheets";
 
-export default function Home() {
-  const data = trendingData as DailyData;
+export const revalidate = 86400; // ISR: regenerate every 24 hours
+
+export default async function Home() {
+  const data = await fetchTrendingData();
 
   return (
     <I18nProvider>

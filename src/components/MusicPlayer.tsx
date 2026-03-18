@@ -203,6 +203,17 @@ export default function MusicPlayer() {
                 </button>
               )}
 
+              {/* Equalizer wave bars */}
+              {isPlaying && (
+                <div className="flex items-end justify-center gap-[3px] h-6 mb-3">
+                  <div className="eq-bar" />
+                  <div className="eq-bar" />
+                  <div className="eq-bar" />
+                  <div className="eq-bar" />
+                  <div className="eq-bar" />
+                </div>
+              )}
+
               {/* Progress bar */}
               {isPlaying && (
                 <>
@@ -267,10 +278,12 @@ export default function MusicPlayer() {
             />
           )}
           {isPlaying ? (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-              <rect x="6" y="4" width="4" height="16" rx="1" />
-              <rect x="14" y="4" width="4" height="16" rx="1" />
-            </svg>
+            <div className="flex items-end justify-center gap-[2px] h-4">
+              <div className="eq-bar" style={{ width: 2 }} />
+              <div className="eq-bar" style={{ width: 2 }} />
+              <div className="eq-bar" style={{ width: 2 }} />
+              <div className="eq-bar" style={{ width: 2 }} />
+            </div>
           ) : (
             <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
               <path d="M8 5v14l11-7z" />

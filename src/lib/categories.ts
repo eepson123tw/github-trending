@@ -381,7 +381,7 @@ export function getTopRepos(data: DailyData): (Repo & { appearances: number; dat
   const map = new Map<string, { repo: Repo; dates: string[] }>();
   for (const [date, repos] of Object.entries(data)) {
     for (const repo of repos) {
-      const key = `${repo.author}/${repo.title}`.toLowerCase();
+      const key = (repo.url || `${repo.author}/${repo.title}`).toLowerCase();
       if (!map.has(key)) {
         map.set(key, { repo, dates: [date] });
       } else {
