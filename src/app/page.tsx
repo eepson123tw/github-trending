@@ -8,6 +8,9 @@ import TimelineRiver from "@/components/TimelineRiver";
 import CategoryBubbles from "@/components/CategoryBubbles";
 import InsightCards from "@/components/InsightCards";
 import AIEcosystemBattle from "@/components/AIEcosystemBattle";
+import TrendGuessGame from "@/components/TrendGuessGame";
+import RacingBarChart from "@/components/RacingBarChart";
+import OnThisDay from "@/components/OnThisDay";
 import SearchExplorer from "@/components/SearchExplorer";
 import TopRepos from "@/components/TopRepos";
 import Footer from "@/components/Footer";
@@ -32,6 +35,9 @@ export default async function Home() {
         <LanguageSwitcher />
         <div className="relative z-10">
           <HeroSection stats={stats} />
+          <div id="guess">
+            <TrendGuessGame data={data} />
+          </div>
           <div id="trends">
             <TrendChart data={data} />
           </div>
@@ -46,6 +52,12 @@ export default async function Home() {
           </div>
           <div id="ai-battle">
             <AIEcosystemBattle data={data} />
+          </div>
+          <div id="racing">
+            <RacingBarChart data={data} />
+          </div>
+          <div id="on-this-day">
+            <OnThisDay data={data} />
           </div>
           <div id="explore">
             <SearchExplorer data={data} />

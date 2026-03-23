@@ -11,11 +11,14 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const NAV_ITEMS = [
+    { label: t("navGuess"), href: "#guess" },
     { label: t("navTrends"), href: "#trends" },
     { label: t("navTimeline"), href: "#timeline" },
     { label: t("navCategories"), href: "#categories" },
     { label: t("navInsights"), href: "#insights" },
     { label: t("navBattle"), href: "#ai-battle" },
+    { label: t("navRacing"), href: "#racing" },
+    { label: t("navOnThisDay"), href: "#on-this-day" },
     { label: t("navExplore"), href: "#explore" },
     { label: t("navLeaderboard"), href: "#leaderboard" },
   ];
