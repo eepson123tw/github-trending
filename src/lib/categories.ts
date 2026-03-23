@@ -745,7 +745,7 @@ export function computeInsightStats(data: DailyData): InsightStats {
 
   return {
     noisePercent: Math.round((flash / total) * 100),
-    evergreenPercent: Math.round((evergreen / total) * 10) / 10,
+    evergreenPercent: Math.round((evergreen / total) * 1000) / 10,
     msRepos: msKeys.size,
     msAppearances,
   };
