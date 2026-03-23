@@ -7,6 +7,7 @@ import TrendChart from "@/components/TrendChart";
 import TimelineRiver from "@/components/TimelineRiver";
 import CategoryBubbles from "@/components/CategoryBubbles";
 import InsightCards from "@/components/InsightCards";
+import AIEcosystemBattle from "@/components/AIEcosystemBattle";
 import SearchExplorer from "@/components/SearchExplorer";
 import TopRepos from "@/components/TopRepos";
 import Footer from "@/components/Footer";
@@ -42,6 +43,9 @@ export default async function Home() {
           </div>
           <div id="insights">
             <InsightCards stats={stats} />
+          </div>
+          <div id="ai-battle">
+            <AIEcosystemBattle data={data} />
           </div>
           <div id="explore">
             <SearchExplorer data={data} />

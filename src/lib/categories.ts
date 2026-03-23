@@ -604,7 +604,40 @@ export function computeStats(data: DailyData): DataStats {
   };
 }
 
-export function getTopRepos(data: DailyData): (Repo & { appearances: number; dates: string[]; category: CategoryDef })[] {
+export type Durability = "evergreen" | "steady" | "burst" | "flash";
+
+function getDurability(appearances: number): Durability {
+  if (appearances >= 16) return "evergreen";
+  if (appearances >= 6) return "steady";
+  if (appearances >= 2) return "burst";
+  return "flash";
+}
+
+function computeLongestStreak(sortedDates: string[]): number {
+  if (sortedDates.length <= 1) return sortedDates.length;
+  let max = 1;
+  let cur = 1;
+  for (let i = 1; i < sortedDates.length; i++) {
+    const prev = new Date(sortedDates[i - 1]).getTime();
+    const curr = new Date(sortedDates[i]).getTime();
+    const diffDays = (curr - prev) / 86_400_000;
+    if (diffDays === 1) {
+      cur++;
+      if (cur > max) max = cur;
+    } else {
+      cur = 1;
+    }
+  }
+  return max;
+}
+
+export function getTopRepos(data: DailyData): (Repo & {
+  appearances: number;
+  dates: string[];
+  category: CategoryDef;
+  longestStreak: number;
+  durability: Durability;
+})[] {
   const map = new Map<string, { repo: Repo; dates: string[] }>();
   for (const [date, repos] of Object.entries(data)) {
     for (const repo of repos) {
@@ -617,11 +650,102 @@ export function getTopRepos(data: DailyData): (Repo & { appearances: number; dat
     }
   }
   return Array.from(map.values())
-    .map(({ repo, dates }) => ({
-      ...repo,
-      appearances: dates.length,
-      dates: dates.sort(),
-      category: categorize(repo),
-    }))
+    .map(({ repo, dates }) => {
+      const sorted = dates.sort();
+      return {
+        ...repo,
+        appearances: sorted.length,
+        dates: sorted,
+        category: categorize(repo),
+        longestStreak: computeLongestStreak(sorted),
+        durability: getDurability(sorted.length),
+      };
+    })
     .sort((a, b) => b.appearances - a.appearances);
+}
+
+export type Momentum = "up2" | "up1" | "flat" | "down1" | "down2";
+
+export function computeCategoryMomentum(data: DailyData): Record<string, Momentum> {
+  const dates = Object.keys(data).sort();
+  if (dates.length < 60) return {};
+
+  const recent = new Set(dates.slice(-90));
+  const prev = new Set(dates.slice(-180, -90));
+
+  const recentCounts: Record<string, number> = {};
+  const prevCounts: Record<string, number> = {};
+
+  for (const [date, repos] of Object.entries(data)) {
+    for (const repo of repos) {
+      const cat = categorize(repo).name;
+      if (cat === "Other") continue;
+      if (recent.has(date)) recentCounts[cat] = (recentCounts[cat] || 0) + 1;
+      else if (prev.has(date)) prevCounts[cat] = (prevCounts[cat] || 0) + 1;
+    }
+  }
+
+  const result: Record<string, Momentum> = {};
+  for (const cat of CATEGORIES) {
+    if (cat.name === "Other") continue;
+    const r = recentCounts[cat.name] || 0;
+    const p = prevCounts[cat.name] || 1;
+    const change = (r - p) / p;
+    if (change > 0.5) result[cat.name] = "up2";
+    else if (change > 0.15) result[cat.name] = "up1";
+    else if (change > -0.15) result[cat.name] = "flat";
+    else if (change > -0.5) result[cat.name] = "down1";
+    else result[cat.name] = "down2";
+  }
+  return result;
+}
+
+export interface CompanyQuarterData {
+  company: string;
+  color: string;
+  quarters: { quarter: string; appearances: number }[];
+}
+
+export function buildAIEcosystemData(data: DailyData): CompanyQuarterData[] {
+  const companies: { name: string; color: string; match: (author: string, text: string) => boolean }[] = [
+    { name: "Claude / Anthropic", color: "#f59e0b", match: (a, t) => a.includes("anthropic") || t.includes("claude") },
+    { name: "OpenAI", color: "#10b981", match: (a, t) => a.includes("openai") || t.includes("openai") || t.includes("chatgpt") },
+    { name: "Google", color: "#3b82f6", match: (a, t) => a.includes("google") || t.includes("gemini") || t.includes("tensorflow") },
+    { name: "Microsoft", color: "#ef4444", match: (a, _t) => a.includes("microsoft") || a.includes("azure") || a.includes("dotnet") },
+    { name: "Meta", color: "#8b5cf6", match: (a, t) => a.includes("meta-llama") || a.includes("facebookresearch") || t.includes("pytorch") || t.includes("llama") },
+  ];
+
+  function getQuarter(date: string): string {
+    const m = parseInt(date.slice(5, 7), 10);
+    const y = date.slice(0, 4);
+    if (m <= 3) return `${y} Q1`;
+    if (m <= 6) return `${y} Q2`;
+    if (m <= 9) return `${y} Q3`;
+    return `${y} Q4`;
+  }
+
+  const allQuarters = new Set<string>();
+  const counts: Record<string, Record<string, number>> = {};
+  for (const c of companies) counts[c.name] = {};
+
+  for (const [date, repos] of Object.entries(data)) {
+    const q = getQuarter(date);
+    allQuarters.add(q);
+    for (const repo of repos) {
+      const author = repo.author.toLowerCase();
+      const text = `${repo.title} ${repo.description}`.toLowerCase();
+      for (const c of companies) {
+        if (c.match(author, text)) {
+          counts[c.name][q] = (counts[c.name][q] || 0) + 1;
+        }
+      }
+    }
+  }
+
+  const quarters = Array.from(allQuarters).sort();
+  return companies.map((c) => ({
+    company: c.name,
+    color: c.color,
+    quarters: quarters.map((q) => ({ quarter: q, appearances: counts[c.name][q] || 0 })),
+  }));
 }

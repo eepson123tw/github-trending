@@ -2,16 +2,34 @@
 
 import { useRef } from "react";
 import { motion } from "framer-motion";
-import type { Repo, CategoryDef } from "@/lib/categories";
+import type { Repo, CategoryDef, Durability } from "@/lib/categories";
+import { useI18n } from "@/lib/i18n-context";
 
 interface Props {
   repo: Repo;
   category: CategoryDef;
   appearances?: number;
+  longestStreak?: number;
+  durability?: Durability;
   index: number;
 }
 
-export default function RepoCard({ repo, category, appearances, index }: Props) {
+const DURABILITY_COLORS: Record<Durability, string> = {
+  evergreen: "#10b981",
+  steady: "#3b82f6",
+  burst: "#f97316",
+  flash: "#64748b",
+};
+
+const DURABILITY_KEYS: Record<Durability, "badgeEvergreen" | "badgeSteady" | "badgeBurst" | "badgeFlash"> = {
+  evergreen: "badgeEvergreen",
+  steady: "badgeSteady",
+  burst: "badgeBurst",
+  flash: "badgeFlash",
+};
+
+export default function RepoCard({ repo, category, appearances, longestStreak, durability, index }: Props) {
+  const { t } = useI18n();
   const cardRef = useRef<HTMLAnchorElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -90,20 +108,40 @@ export default function RepoCard({ repo, category, appearances, index }: Props) 
         </p>
 
         {/* Footer — always at bottom */}
-        <div className="flex items-center justify-between mt-auto">
-          <span
-            className="text-[10px] sm:text-xs px-2 py-0.5 rounded-full"
-            style={{
-              background: `${category.color}15`,
-              color: category.color,
-              border: `1px solid ${category.color}30`,
-            }}
-          >
-            {category.name}
-          </span>
-          <span className="text-[10px] sm:text-xs text-slate-500 group-hover:text-indigo-400 transition-colors">
-            GitHub &rarr;
-          </span>
+        <div className="flex items-center justify-between mt-auto gap-1.5">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span
+              className="text-[10px] sm:text-xs px-2 py-0.5 rounded-full shrink-0"
+              style={{
+                background: `${category.color}15`,
+                color: category.color,
+                border: `1px solid ${category.color}30`,
+              }}
+            >
+              {category.name}
+            </span>
+            {durability && durability !== "flash" && (
+              <span
+                className="text-[10px] px-1.5 py-0.5 rounded-full shrink-0"
+                style={{
+                  background: `${DURABILITY_COLORS[durability]}15`,
+                  color: DURABILITY_COLORS[durability],
+                }}
+              >
+                {t(DURABILITY_KEYS[durability])}
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            {longestStreak && longestStreak >= 5 && (
+              <span className="text-[10px] text-amber-400/80">
+                🔥{longestStreak}{t("streakLabel")}
+              </span>
+            )}
+            <span className="text-[10px] sm:text-xs text-slate-500 group-hover:text-indigo-400 transition-colors">
+              GitHub &rarr;
+            </span>
+          </div>
         </div>
       </a>
     </motion.div>

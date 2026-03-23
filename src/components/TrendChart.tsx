@@ -1,11 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import * as d3 from "d3";
 import { motion } from "framer-motion";
 import type { DailyData } from "@/lib/categories";
-import { CATEGORIES, categorize } from "@/lib/categories";
+import { CATEGORIES, categorize, computeCategoryMomentum } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n-context";
+
+const MOMENTUM_ARROWS: Record<string, string> = {
+  up2: "↑↑",
+  up1: "↑",
+  flat: "→",
+  down1: "↓",
+  down2: "↓↓",
+};
 
 interface Props {
   data: DailyData;
@@ -20,6 +28,7 @@ export default function TrendChart({ data }: Props) {
 
   const catNames = CATEGORIES.filter((c) => c.name !== "Other").map((c) => c.name);
   const catColorMap = Object.fromEntries(CATEGORIES.map((c) => [c.name, c.color]));
+  const momentum = useMemo(() => computeCategoryMomentum(data), [data]);
 
   const buildSeries = useCallback(() => {
     const dates = Object.keys(data).sort();
@@ -434,6 +443,11 @@ export default function TrendChart({ data }: Props) {
                 style={{ background: cat.color }}
               />
               {cat.name}
+              {momentum[cat.name] && (
+                <span className="ml-0.5 text-[10px] opacity-60">
+                  {MOMENTUM_ARROWS[momentum[cat.name]]}
+                </span>
+              )}
             </button>
           ))}
           {selectedCat && (

@@ -17,6 +17,7 @@ export default function SearchExplorer({ data }: Props) {
   const { t } = useI18n();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [durabilityFilter, setDurabilityFilter] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const allRepos = useMemo(() => getTopRepos(data), [data]);
@@ -24,12 +25,20 @@ export default function SearchExplorer({ data }: Props) {
   // Reset visible count when filters change
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
-  }, [search, activeCategory]);
+  }, [search, activeCategory, durabilityFilter]);
 
   const allFiltered = useMemo(() => {
     let repos = allRepos;
     if (activeCategory) {
       repos = repos.filter((r) => r.category.name === activeCategory);
+    }
+    if (durabilityFilter) {
+      repos = repos.filter((r) => {
+        if (durabilityFilter === "evergreen") return r.appearances >= 16;
+        if (durabilityFilter === "steady") return r.appearances >= 6 && r.appearances <= 15;
+        if (durabilityFilter === "burst") return r.appearances >= 2 && r.appearances <= 5;
+        return true;
+      });
     }
     if (search.trim()) {
       const q = search.toLowerCase();
@@ -41,7 +50,7 @@ export default function SearchExplorer({ data }: Props) {
       );
     }
     return repos;
-  }, [allRepos, activeCategory, search]);
+  }, [allRepos, activeCategory, durabilityFilter, search]);
 
   const filtered = useMemo(
     () => allFiltered.slice(0, visibleCount),
@@ -166,6 +175,33 @@ export default function SearchExplorer({ data }: Props) {
           })}
         </div>
 
+        {/* Durability filters */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {([
+            { key: null, label: t("filterAll"), color: "#6366f1" },
+            { key: "evergreen", label: t("filterEvergreen"), color: "#10b981" },
+            { key: "steady", label: t("filterSteady"), color: "#3b82f6" },
+            { key: "burst", label: t("filterBurst"), color: "#f97316" },
+          ] as const).map((f) => (
+            <button
+              key={f.label}
+              onClick={() => setDurabilityFilter(durabilityFilter === f.key ? null : f.key)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                durabilityFilter === f.key
+                  ? "ring-1"
+                  : "glass-card text-slate-400 hover:text-white"
+              }`}
+              style={
+                durabilityFilter === f.key
+                  ? { background: `${f.color}20`, color: f.color, boxShadow: `0 0 0 1px ${f.color}40` }
+                  : undefined
+              }
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+
         {/* Results count */}
         <p className="text-xs text-slate-600 mb-4">
           {filtered.length} / {allFiltered.length} {t("searchResults")}
@@ -189,6 +225,8 @@ export default function SearchExplorer({ data }: Props) {
                   repo={repo}
                   category={repo.category}
                   appearances={repo.appearances}
+                  longestStreak={repo.longestStreak}
+                  durability={repo.durability}
                   index={0}
                 />
               </motion.div>

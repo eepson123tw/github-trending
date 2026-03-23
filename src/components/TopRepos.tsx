@@ -39,6 +39,8 @@ export default function TopRepos({ data }: Props) {
               repo={repo}
               category={repo.category}
               appearances={repo.appearances}
+              longestStreak={repo.longestStreak}
+              durability={repo.durability}
               index={i}
             />
           ))}

@@ -54,6 +54,20 @@ const INSIGHTS: {
     gradient: "from-rose-500/20 to-red-500/20",
     border: "border-rose-500/20",
   },
+  {
+    icon: "\u{1F4CA}",
+    titleKey: "insight7Title",
+    descKey: "insight7Desc",
+    gradient: "from-slate-500/20 to-zinc-500/20",
+    border: "border-slate-500/20",
+  },
+  {
+    icon: "\u{1F3E2}",
+    titleKey: "insight8Title",
+    descKey: "insight8Desc",
+    gradient: "from-sky-500/20 to-blue-500/20",
+    border: "border-sky-500/20",
+  },
 ];
 
 export default function InsightCards({ stats }: { stats: DataStats }) {

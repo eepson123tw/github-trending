@@ -58,6 +58,26 @@ export const translations = {
     insight5Desc: "Claude Ecosystem 後半年成長 +110%，2026 Q1 佔比 13.8% 躍升第三大分類，claude-code 與 superpowers 帶動整個生態。",
     insight6Title: "中國開源生態活躍",
     insight6Desc: "alibaba、volcengine、datawhalechina 等組織貢獻大量 AI 工具，中國開發者參與度極高。",
+    insight7Title: "85% 都是浮雲",
+    insight7Desc: "只有 2.6% 的 repo 能持續上榜超過 16 天，近 85% 在 5 天內就消失 — Trending 的「噪音」極高。",
+    insight8Title: "Microsoft 是隱藏冠軍",
+    insight8Desc: "37 個 repo、236 次上榜，Microsoft 是 GitHub Trending 上最活躍的組織，主力集中在 AI Agent 領域。",
+
+    // AI Battle
+    battleTitle: "AI 生態系對決",
+    battleDesc: "五大 AI 巨頭的開源趨勢季度比較 — Claude 是唯一仍在加速的生態",
+    navBattle: "對決",
+
+    // Durability
+    streakLabel: "天連勝",
+    badgeEvergreen: "常青",
+    badgeSteady: "穩定",
+    badgeBurst: "短爆",
+    badgeFlash: "閃現",
+    filterAll: "全部",
+    filterEvergreen: "常青 16+",
+    filterSteady: "穩定 6-15",
+    filterBurst: "短爆 2-5",
 
     // Search
     searchTitle: "探索所有 Repo",
@@ -133,6 +153,24 @@ export const translations = {
     insight5Desc: "Claude Ecosystem grew +110% in the second half, reaching 13.8% share in Q1 2026 as the 3rd largest category — driven by claude-code and superpowers.",
     insight6Title: "China\u2019s OSS Ecosystem Thrived",
     insight6Desc: "alibaba, volcengine, datawhalechina and others contributed heavily to AI tools. Chinese developer participation was extremely high.",
+    insight7Title: "85% Are Just Noise",
+    insight7Desc: "Only 2.6% of repos stay on trending for 16+ days. Nearly 85% vanish within 5 days — the signal-to-noise ratio is extremely low.",
+    insight8Title: "Microsoft Is the Hidden Champion",
+    insight8Desc: "37 repos, 236 appearances — Microsoft is the most active organization on GitHub Trending, with a heavy focus on AI Agents.",
+
+    battleTitle: "AI Ecosystem Battle",
+    battleDesc: "Quarterly comparison of the Big Five AI ecosystems — Claude is the only one still accelerating",
+    navBattle: "Battle",
+
+    streakLabel: "-day streak",
+    badgeEvergreen: "Evergreen",
+    badgeSteady: "Steady",
+    badgeBurst: "Burst",
+    badgeFlash: "Flash",
+    filterAll: "All",
+    filterEvergreen: "Evergreen 16+",
+    filterSteady: "Steady 6-15",
+    filterBurst: "Burst 2-5",
 
     searchTitle: "Explore All Repos",
     searchDesc: "Search by keyword or filter by category",
@@ -210,6 +248,24 @@ export const translations = {
     insight5Desc: "Claude Ecosystem 后半年成长 +110%，2026 Q1 占比 13.8% 跃升第三大分类，claude-code 与 superpowers 带动整个生态。",
     insight6Title: "中国开源生态活跃",
     insight6Desc: "alibaba、volcengine、datawhalechina 等组织贡献大量 AI 工具，中国开发者参与度极高。",
+    insight7Title: "85% 都是浮云",
+    insight7Desc: "只有 2.6% 的 repo 能持续上榜超过 16 天，近 85% 在 5 天内就消失 — Trending 的「噪音」极高。",
+    insight8Title: "Microsoft 是隐藏冠军",
+    insight8Desc: "37 个 repo、236 次上榜，Microsoft 是 GitHub Trending 上最活跃的组织，主力集中在 AI Agent 领域。",
+
+    battleTitle: "AI 生态系对决",
+    battleDesc: "五大 AI 巨头的开源趋势季度比较 — Claude 是唯一仍在加速的生态",
+    navBattle: "对决",
+
+    streakLabel: "天连胜",
+    badgeEvergreen: "常青",
+    badgeSteady: "稳定",
+    badgeBurst: "短爆",
+    badgeFlash: "闪现",
+    filterAll: "全部",
+    filterEvergreen: "常青 16+",
+    filterSteady: "稳定 6-15",
+    filterBurst: "短爆 2-5",
 
     // Search
     searchTitle: "探索所有 Repo",

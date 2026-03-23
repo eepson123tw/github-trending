@@ -15,6 +15,7 @@ export default function Navbar() {
     { label: t("navTimeline"), href: "#timeline" },
     { label: t("navCategories"), href: "#categories" },
     { label: t("navInsights"), href: "#insights" },
+    { label: t("navBattle"), href: "#ai-battle" },
     { label: t("navExplore"), href: "#explore" },
     { label: t("navLeaderboard"), href: "#leaderboard" },
   ];
