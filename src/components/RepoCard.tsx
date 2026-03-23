@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { motion } from "framer-motion";
 import type { Repo, CategoryDef, Durability } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n-context";
 
@@ -11,7 +10,7 @@ interface Props {
   appearances?: number;
   longestStreak?: number;
   durability?: Durability;
-  index: number;
+  index?: number;
 }
 
 const DURABILITY_COLORS: Record<Durability, string> = {
@@ -28,7 +27,7 @@ const DURABILITY_KEYS: Record<Durability, "badgeEvergreen" | "badgeSteady" | "ba
   flash: "badgeFlash",
 };
 
-export default function RepoCard({ repo, category, appearances, longestStreak, durability, index }: Props) {
+export default function RepoCard({ repo, category, appearances, longestStreak, durability }: Props) {
   const { t } = useI18n();
   const cardRef = useRef<HTMLAnchorElement>(null);
 
@@ -52,13 +51,7 @@ export default function RepoCard({ repo, category, appearances, longestStreak, d
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ delay: index * 0.05, duration: 0.5, ease: "easeOut" }}
-      className="h-full"
-    >
+    <div className="h-full">
       <a
         href={`https://github.com/${repo.author}/${repo.title}`}
         target="_blank"
@@ -67,7 +60,6 @@ export default function RepoCard({ repo, category, appearances, longestStreak, d
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         className="glass-card glow-border p-4 sm:p-5 cursor-pointer transition-[transform] duration-200 ease-out group flex flex-col h-full"
-        style={{ willChange: "transform" }}
       >
         {/* Header */}
         <div className="flex items-start justify-between mb-2 sm:mb-3">
@@ -144,6 +136,6 @@ export default function RepoCard({ repo, category, appearances, longestStreak, d
           </div>
         </div>
       </a>
-    </motion.div>
+    </div>
   );
 }

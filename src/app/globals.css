@@ -29,6 +29,7 @@ body {
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
+  contain: layout style paint;
 }
 
 /* Animated gradient border */
@@ -68,13 +69,9 @@ body {
   animation: shimmer 1.5s infinite;
 }
 
-/* Pulse glow for hot repos */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px var(--color-glow-purple); }
-  50% { box-shadow: 0 0 24px var(--color-glow-blue); }
-}
+/* Pulse glow for hot repos — only animate when visible & reduce to a subtle static glow */
 .pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
+  box-shadow: 0 0 8px var(--color-glow-purple);
 }
 
 /* Star particles */

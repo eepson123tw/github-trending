@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import type { DailyData } from "@/lib/categories";
 import { CATEGORIES, getTopRepos } from "@/lib/categories";
 import RepoCard from "./RepoCard";
@@ -209,29 +209,20 @@ export default function SearchExplorer({ data }: Props) {
           {activeCategory && ` ${t("searchIn")} ${activeCategory}`}
         </p>
 
-        {/* Repo grid with animations */}
+        {/* Repo grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((repo, i) => (
-              <motion.div
-                key={`${repo.author}-${repo.title}`}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3, delay: Math.max(0, i - (visibleCount - PAGE_SIZE)) * 0.02 }}
-              >
-                <RepoCard
-                  repo={repo}
-                  category={repo.category}
-                  appearances={repo.appearances}
-                  longestStreak={repo.longestStreak}
-                  durability={repo.durability}
-                  index={0}
-                />
-              </motion.div>
-            ))}
-          </AnimatePresence>
+          {filtered.map((repo) => (
+            <div key={`${repo.author}-${repo.title}`}>
+              <RepoCard
+                repo={repo}
+                category={repo.category}
+                appearances={repo.appearances}
+                longestStreak={repo.longestStreak}
+                durability={repo.durability}
+                index={0}
+              />
+            </div>
+          ))}
         </div>
 
         {/* Load More */}

@@ -32,19 +32,35 @@ export default function TopRepos({ data }: Props) {
           {t("leaderDesc")}
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.04 } },
+          }}
+        >
           {topRepos.map((repo, i) => (
-            <RepoCard
+            <motion.div
               key={`${repo.author}-${repo.title}`}
-              repo={repo}
-              category={repo.category}
-              appearances={repo.appearances}
-              longestStreak={repo.longestStreak}
-              durability={repo.durability}
-              index={i}
-            />
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
+              }}
+            >
+              <RepoCard
+                repo={repo}
+                category={repo.category}
+                appearances={repo.appearances}
+                longestStreak={repo.longestStreak}
+                durability={repo.durability}
+                index={i}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   );
