@@ -64,10 +64,6 @@ export default function AIEcosystemBattle({ data }: Props) {
       .domain([0, yMax * 1.1])
       .range([height - margin.bottom, margin.top]);
 
-    const colorMap = Object.fromEntries(
-      ecosystemData.map((d) => [d.company, d.color])
-    );
-
     // Grid lines
     svg
       .append("g")
@@ -196,6 +192,9 @@ export default function AIEcosystemBattle({ data }: Props) {
         <div ref={containerRef} className="glass-card p-4 overflow-hidden">
           <svg ref={svgRef} className="w-full" />
         </div>
+        <p className="text-[10px] text-slate-600 mt-2">
+          {t("battleNote")}
+        </p>
       </motion.div>
     </section>
   );

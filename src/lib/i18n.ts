@@ -66,6 +66,7 @@ export const translations = {
     // AI Battle
     battleTitle: "AI 生態系對決",
     battleDesc: "五大 AI 巨頭的開源趨勢季度比較 — Claude 是唯一仍在加速的生態",
+    battleNote: "統計方式：依據 repo 的作者組織名稱及標題 / 描述中的關鍵字匹配，涵蓋官方與第三方生態項目",
     navBattle: "對決",
 
     // Durability
@@ -160,6 +161,7 @@ export const translations = {
 
     battleTitle: "AI Ecosystem Battle",
     battleDesc: "Quarterly comparison of the Big Five AI ecosystems — Claude is the only one still accelerating",
+    battleNote: "Methodology: repos matched by org author name and keyword mentions in title/description, covering both official and community ecosystem projects",
     navBattle: "Battle",
 
     streakLabel: "-day streak",
@@ -255,6 +257,7 @@ export const translations = {
 
     battleTitle: "AI 生态系对决",
     battleDesc: "五大 AI 巨头的开源趋势季度比较 — Claude 是唯一仍在加速的生态",
+    battleNote: "统计方式：依据 repo 的作者组织名称及标题 / 描述中的关键字匹配，涵盖官方与第三方生态项目",
     navBattle: "对决",
 
     streakLabel: "天连胜",
