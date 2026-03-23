@@ -1,9 +1,11 @@
 "use client";
 
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { useI18n } from "@/lib/i18n-context";
 import type { TranslationKey } from "@/lib/i18n";
-import type { DataStats } from "@/lib/categories";
+import type { DataStats, DailyData } from "@/lib/categories";
+import { computeInsightStats } from "@/lib/categories";
 
 const INSIGHTS: {
   icon: string;
@@ -70,8 +72,16 @@ const INSIGHTS: {
   },
 ];
 
-export default function InsightCards({ stats }: { stats: DataStats }) {
+export default function InsightCards({ stats, data }: { stats: DataStats; data: DailyData }) {
   const { t } = useI18n();
+  const insightStats = useMemo(() => computeInsightStats(data), [data]);
+
+  const insightVars = {
+    noisePercent: insightStats.noisePercent,
+    evergreenPercent: insightStats.evergreenPercent,
+    msRepos: insightStats.msRepos,
+    msAppearances: insightStats.msAppearances,
+  };
 
   return (
     <section className="relative py-16 sm:py-24 px-4 sm:px-6">
@@ -106,10 +116,10 @@ export default function InsightCards({ stats }: { stats: DataStats }) {
               <div className="relative z-10">
                 <span className="text-3xl mb-3 block">{insight.icon}</span>
                 <h3 className="text-lg font-semibold text-white mb-2">
-                  {t(insight.titleKey)}
+                  {t(insight.titleKey, insightVars)}
                 </h3>
                 <p className="text-sm text-slate-400 leading-relaxed">
-                  {t(insight.descKey)}
+                  {t(insight.descKey, insightVars)}
                 </p>
               </div>
             </motion.div>

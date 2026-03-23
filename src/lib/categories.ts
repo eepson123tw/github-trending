@@ -700,6 +700,57 @@ export function computeCategoryMomentum(data: DailyData): Record<string, Momentu
   return result;
 }
 
+export interface InsightStats {
+  noisePercent: number;       // % of repos with ≤5 days
+  evergreenPercent: number;   // % of repos with 16+ days
+  msRepos: number;            // Microsoft unique repo count
+  msAppearances: number;      // Microsoft total appearances
+}
+
+export function computeInsightStats(data: DailyData): InsightStats {
+  // Count appearances per unique repo
+  const map = new Map<string, { repo: Repo; count: number }>();
+  for (const repos of Object.values(data)) {
+    for (const repo of repos) {
+      const key = (repo.url || `${repo.author}/${repo.title}`).toLowerCase();
+      if (!map.has(key)) {
+        map.set(key, { repo, count: 1 });
+      } else {
+        map.get(key)!.count++;
+      }
+    }
+  }
+
+  const total = map.size;
+  let flash = 0;
+  let evergreen = 0;
+  for (const { count } of map.values()) {
+    if (count <= 5) flash++;
+    if (count >= 16) evergreen++;
+  }
+
+  // Microsoft stats
+  const msKeys = new Set<string>();
+  let msAppearances = 0;
+  for (const repos of Object.values(data)) {
+    for (const repo of repos) {
+      const author = repo.author.toLowerCase();
+      if (author.includes("microsoft") || author.includes("azure") || author.includes("dotnet")) {
+        const key = (repo.url || `${repo.author}/${repo.title}`).toLowerCase();
+        msKeys.add(key);
+        msAppearances++;
+      }
+    }
+  }
+
+  return {
+    noisePercent: Math.round((flash / total) * 100),
+    evergreenPercent: Math.round((evergreen / total) * 10) / 10,
+    msRepos: msKeys.size,
+    msAppearances,
+  };
+}
+
 export interface CompanyQuarterData {
   company: string;
   color: string;

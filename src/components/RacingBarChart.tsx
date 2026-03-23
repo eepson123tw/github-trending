@@ -140,7 +140,7 @@ export default function RacingBarChart({ data }: Props) {
           </span>
         </h2>
         <p className="text-sm sm:text-base text-slate-500 mb-6 sm:mb-8">
-          {t("racingDesc")}
+          {t("racingDesc").replace("{{days}}", String(dates.length))}
         </p>
 
         <div className="glass-card p-4 sm:p-6">

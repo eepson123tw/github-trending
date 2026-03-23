@@ -48,7 +48,7 @@ export default async function Home() {
             <CategoryBubbles data={data} stats={stats} />
           </div>
           <div id="insights">
-            <InsightCards stats={stats} />
+            <InsightCards stats={stats} data={data} />
           </div>
           <div id="ai-battle">
             <AIEcosystemBattle data={data} />
