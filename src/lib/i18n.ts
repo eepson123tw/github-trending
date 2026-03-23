@@ -54,8 +54,8 @@ export const translations = {
     insight3Desc: "mem0 → graphiti → Memori → OpenViking，從簡單記憶到上下文資料庫的完整進化路線。",
     insight4Title: "RAG 從教學走向產品",
     insight4Desc: "年初是 all-rag-techniques 教學文，年底是 openrag 一站式平台，技術成熟度大幅提升。",
-    insight5Title: "AI 金融持續熱門",
-    insight5Desc: "ai-hedge-fund 跨越三個季度反覆上榜，顯示 AI + Finance 是持久性需求而非一時話題。",
+    insight5Title: "Claude 生態系爆發成長",
+    insight5Desc: "Claude Ecosystem 後半年成長 +110%，2026 Q1 佔比 13.8% 躍升第三大分類，claude-code 與 superpowers 帶動整個生態。",
     insight6Title: "中國開源生態活躍",
     insight6Desc: "alibaba、volcengine、datawhalechina 等組織貢獻大量 AI 工具，中國開發者參與度極高。",
 
@@ -129,8 +129,8 @@ export const translations = {
     insight3Desc: "mem0 → graphiti → Memori → OpenViking — a complete evolution from simple memory to context databases.",
     insight4Title: "RAG: Tutorials to Products",
     insight4Desc: "Started with all-rag-techniques tutorials, ended with openrag as a full platform. Massive maturity leap.",
-    insight5Title: "AI Finance Stayed Hot",
-    insight5Desc: "ai-hedge-fund appeared across 3 quarters, proving AI + Finance is sustained demand, not a fad.",
+    insight5Title: "Claude Ecosystem Exploded",
+    insight5Desc: "Claude Ecosystem grew +110% in the second half, reaching 13.8% share in Q1 2026 as the 3rd largest category — driven by claude-code and superpowers.",
     insight6Title: "China\u2019s OSS Ecosystem Thrived",
     insight6Desc: "alibaba, volcengine, datawhalechina and others contributed heavily to AI tools. Chinese developer participation was extremely high.",
 
@@ -206,8 +206,8 @@ export const translations = {
     insight3Desc: "mem0 → graphiti → Memori → OpenViking，从简单记忆到上下文数据库的完整进化路线。",
     insight4Title: "RAG 从教学走向产品",
     insight4Desc: "年初是 all-rag-techniques 教学文，年底是 openrag 一站式平台，技术成熟度大幅提升。",
-    insight5Title: "AI 金融持续热门",
-    insight5Desc: "ai-hedge-fund 跨越三个季度反复上榜，显示 AI + Finance 是持久性需求而非一时话题。",
+    insight5Title: "Claude 生态系爆发成长",
+    insight5Desc: "Claude Ecosystem 后半年成长 +110%，2026 Q1 占比 13.8% 跃升第三大分类，claude-code 与 superpowers 带动整个生态。",
     insight6Title: "中国开源生态活跃",
     insight6Desc: "alibaba、volcengine、datawhalechina 等组织贡献大量 AI 工具，中国开发者参与度极高。",
 

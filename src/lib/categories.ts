@@ -403,7 +403,7 @@ export const CATEGORIES: CategoryDef[] = [
   },
   {
     name: "Blockchain / Crypto",
-    color: "#f59e0b",
+    color: "#d97706",
     hue: 35,
     keywords: [
       "blockchain",

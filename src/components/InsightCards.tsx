@@ -41,10 +41,10 @@ const INSIGHTS: {
     border: "border-emerald-500/20",
   },
   {
-    icon: "\u{1F4B0}",
+    icon: "\u{1F680}",
     titleKey: "insight5Title",
     descKey: "insight5Desc",
-    gradient: "from-amber-500/20 to-yellow-500/20",
+    gradient: "from-amber-500/20 to-orange-500/20",
     border: "border-amber-500/20",
   },
   {
