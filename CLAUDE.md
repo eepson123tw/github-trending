@@ -18,7 +18,7 @@ A single-page interactive data visualization site that presents 354+ days of Git
 ## Architecture
 
 ### Data Flow
-1. **Data source**: [Google Sheets](REDACTED) — the primary database storing daily GitHub Trending scrape results
+1. **Data source**: Google Sheets (private) — the primary database storing daily GitHub Trending scrape results
 2. `src/lib/sheets.ts` — fetches data via Google Apps Script (`APPS_SCRIPT_URL` env var), falls back to `public/trending_data.json` (1.1MB, ~5000 records) when unavailable
 3. `src/lib/categories.ts` — core data layer: 18 categories with keyword-based classification, streak/durability/momentum computation, AI ecosystem grouping
 4. `src/app/page.tsx` — server component, calls `fetchTrendingData()` + `computeStats()`, passes data to all client components
